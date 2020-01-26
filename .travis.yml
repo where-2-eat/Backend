@@ -1,0 +1,16 @@
+language: java
+jdk: openjdk8
+script:
+- "./gradlew build"
+before_cache:
+- rm -f $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+deploy:
+  provider: heroku
+  api_key:
+    secure: Wjbh82+xd8pC8kPudWmAtEHGuT2PHqaUupUsn4hsXtYkQEQjtG7pltZXC06M/3gqa7KbUEIMp7jNgfwGyo/XfKvqNn1lG1lgrNLooWy7lxDs4mTwETVtWG6Lw0MVCIRJZpmt5nq+VCYwlaAjfpLzgDHwL1L2juatYr5T4Cw7FBzYWe/7RjPZiHJE2H86DiUv3nn2DWY9DfOks4U+pgnuKqi0YAWxXOKPkt7O1GXyqQd/gmUI1CFBDVDHkFPYXU47rjScIeK3heSI6jS8VuuKX1+qRw2LV4csB3KydUQTZTd+r9/+4bSPOtbHHafU+nVVeQaYGpO9USS2J8Zd4FJ971xlzUzW81jSXiZ8Ii5L9/lRmu8QxZfjHQfMY5j2dIEL4ivnVCv5AoXmOf2E4pqF5658nqJo6tJDebEW7ieIvRziD/dQixLGthD/VaQU50MH6IN2VnwjepQLQ2ncihc8jAwyHwhjp19i0/MjHjry8jRavMw6h1eCmxyKsCuVbR3s4H/x5PtqS50l5BBpK5kdCAaxm5f87y4oqSHQQgbP5+fePILQrlu6n5g+ggtawlpJqGuAcFAQgWeu4/nkOqUWNAeh+bwTQq/ybsiIg2PNhdLYXJr8xlZV/dwFM0sX42O1m72HM9k/3q9aXd3ecgmtB+/3+gPLonZ+uuaTspq737M=
+  app: where2eat-backend 
