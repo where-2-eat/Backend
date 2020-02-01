@@ -1,0 +1,68 @@
+namespace ca.mcgill.ecse.where2eat.model;
+
+enum Category {Chinese, Indian, Portuguese}
+
+class Where2Eat {
+  1 <@>- * User users;
+  1 <@>- * Login loginIDs;
+  1 <@>- * Group groups;
+  1 <@>- * Restaurant restaurants;
+  1 <@>- * Location locations;
+  1 <@>- * Address addresses;
+  1 <@>- * PhoneNumber phoneNumbers;
+}
+
+class User
+{
+  String firstName;
+  String lastName;
+  String userID;
+  Category category;
+}
+
+class Login
+{
+  String userName;
+  String password;
+  1 userLogin <@>- 0..1 User;
+}
+
+class Group
+{
+  String name;
+String groupID;
+  * userGroups -- 1..* User;
+  0..1 ->0..1 Location selectedLocation;
+  *-> 0..1 Restaurant recommendation;
+}
+
+class Restaurant
+{
+  String name;
+  Category category;
+  String restaurantID;
+}
+
+class Location
+{
+  Double xCoordinate;
+  Double yCoordinate;
+  }
+
+class Address
+{
+  String postalCode;
+  String streetNumber;
+  String streetAddress;
+  String city;
+  0..1 restaurantAddress<- 0..1 Restaurant;
+  0..1 -> 0..1 Location restaurantLocation;
+}
+
+class PhoneNumber
+{
+  String areaCode;
+  String localNumber;
+  0..1 <- 0..1 Restaurant restaurantPhone;
+  0..1 <- 0..1 User userPhone;
+}
