@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse.where2eat.model;
 
-// line 46 "../../../../../where2eat.ump"
+// line 48 "../../../../../where2eat.ump"
 public class Location
 {
 

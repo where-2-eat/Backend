@@ -4,22 +4,30 @@
 package ca.mcgill.ecse.where2eat.model;
 import java.util.*;
 
-// line 15 "../../../../../where2eat.ump"
+// line 16 "../../../../../where2eat.ump"
 public class User
 {
+
+  //------------------------
+  // ENUMERATIONS
+  //------------------------
+
+  public enum UserRole { Admin, User }
+
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //User Attributes
+  private UserRole role;
   private String firstName;
   private String lastName;
-  private String userID;
-  private Category category;
+  private int userID;
+  private Set<Category> categories;
 
   //User Associations
   private Where2Eat where2Eat;
-  private Login userLogin;
+  private UserLogin userLogin;
   private List<Group> userGroups;
   private PhoneNumber phoneNumber;
 
@@ -27,12 +35,13 @@ public class User
   // CONSTRUCTOR
   //------------------------
 
-  public User(String aFirstName, String aLastName, String aUserID, Category aCategory, Where2Eat aWhere2Eat, Login aUserLogin)
+  public User(UserRole aRole, String aFirstName, String aLastName, int aUserID, Set<Category> aCategories, Where2Eat aWhere2Eat, UserLogin aUserLogin)
   {
+    role = aRole;
     firstName = aFirstName;
     lastName = aLastName;
     userID = aUserID;
-    category = aCategory;
+    categories = aCategories;
     boolean didAddWhere2Eat = setWhere2Eat(aWhere2Eat);
     if (!didAddWhere2Eat)
     {
@@ -50,6 +59,14 @@ public class User
   // INTERFACE
   //------------------------
 
+  public boolean setRole(UserRole aRole)
+  {
+    boolean wasSet = false;
+    role = aRole;
+    wasSet = true;
+    return wasSet;
+  }
+
   public boolean setFirstName(String aFirstName)
   {
     boolean wasSet = false;
@@ -66,7 +83,7 @@ public class User
     return wasSet;
   }
 
-  public boolean setUserID(String aUserID)
+  public boolean setUserID(int aUserID)
   {
     boolean wasSet = false;
     userID = aUserID;
@@ -74,12 +91,17 @@ public class User
     return wasSet;
   }
 
-  public boolean setCategory(Category aCategory)
+  public boolean setCategories(Set<Category> aCategories)
   {
     boolean wasSet = false;
-    category = aCategory;
+    categories = aCategories;
     wasSet = true;
     return wasSet;
+  }
+
+  public UserRole getRole()
+  {
+    return role;
   }
 
   public String getFirstName()
@@ -92,14 +114,14 @@ public class User
     return lastName;
   }
 
-  public String getUserID()
+  public int getUserID()
   {
     return userID;
   }
 
-  public Category getCategory()
+  public Set<Category> getCategories()
   {
-    return category;
+    return categories;
   }
 
   public Where2Eat getWhere2Eat()
@@ -107,7 +129,7 @@ public class User
     return where2Eat;
   }
 
-  public Login getUserLogin()
+  public UserLogin getUserLogin()
   {
     return userLogin;
   }
@@ -172,7 +194,7 @@ public class User
     return wasSet;
   }
 
-  public boolean setUserLogin(Login aNewUserLogin)
+  public boolean setUserLogin(UserLogin aNewUserLogin)
   {
     boolean wasSet = false;
     if (aNewUserLogin == null)
@@ -188,7 +210,7 @@ public class User
       return wasSet;
     }
     
-    Login anOldUserLogin = userLogin;
+    UserLogin anOldUserLogin = userLogin;
     userLogin = aNewUserLogin;
     userLogin.setUser(this);
 
@@ -298,7 +320,7 @@ public class User
     {
       placeholderWhere2Eat.removeUser(this);
     }
-    Login existingUserLogin = userLogin;
+    UserLogin existingUserLogin = userLogin;
     userLogin = null;
     if (existingUserLogin != null)
     {
@@ -327,7 +349,8 @@ public class User
             "firstName" + ":" + getFirstName()+ "," +
             "lastName" + ":" + getLastName()+ "," +
             "userID" + ":" + getUserID()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "category" + "=" + (getCategory() != null ? !getCategory().equals(this)  ? getCategory().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "role" + "=" + (getRole() != null ? !getRole().equals(this)  ? getRole().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "categories" + "=" + (getCategories() != null ? !getCategories().equals(this)  ? getCategories().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "where2Eat = "+(getWhere2Eat()!=null?Integer.toHexString(System.identityHashCode(getWhere2Eat())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "userLogin = "+(getUserLogin()!=null?Integer.toHexString(System.identityHashCode(getUserLogin())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "phoneNumber = "+(getPhoneNumber()!=null?Integer.toHexString(System.identityHashCode(getPhoneNumber())):"null");

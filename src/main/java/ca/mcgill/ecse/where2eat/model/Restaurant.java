@@ -3,16 +3,19 @@
 
 package ca.mcgill.ecse.where2eat.model;
 
-// line 39 "../../../../../where2eat.ump"
+import java.util.Set;
+
+// line 41 "../../../../../where2eat.ump"
 public class Restaurant
 {
+
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
   //Restaurant Attributes
   private String name;
-  private Category category;
+  private Set<Category> categories;
   private String restaurantID;
 
   //Restaurant Associations
@@ -24,10 +27,10 @@ public class Restaurant
   // CONSTRUCTOR
   //------------------------
 
-  public Restaurant(String aName, Category aCategory, String aRestaurantID, Where2Eat aWhere2Eat)
+  public Restaurant(String aName, Set<Category> aCategories, String aRestaurantID, Where2Eat aWhere2Eat)
   {
     name = aName;
-    category = aCategory;
+    categories = aCategories;
     restaurantID = aRestaurantID;
     boolean didAddWhere2Eat = setWhere2Eat(aWhere2Eat);
     if (!didAddWhere2Eat)
@@ -48,10 +51,10 @@ public class Restaurant
     return wasSet;
   }
 
-  public boolean setCategory(Category aCategory)
+  public boolean setCategories(Set<Category> aCategories)
   {
     boolean wasSet = false;
-    category = aCategory;
+    categories = aCategories;
     wasSet = true;
     return wasSet;
   }
@@ -69,9 +72,9 @@ public class Restaurant
     return name;
   }
 
-  public Category getCategory()
+  public Set<Category> getCategories()
   {
-    return category;
+    return categories;
   }
 
   public String getRestaurantID()
@@ -159,7 +162,7 @@ public class Restaurant
     return super.toString() + "["+
             "name" + ":" + getName()+ "," +
             "restaurantID" + ":" + getRestaurantID()+ "]" + System.getProperties().getProperty("line.separator") +
-            "  " + "category" + "=" + (getCategory() != null ? !getCategory().equals(this)  ? getCategory().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
+            "  " + "categories" + "=" + (getCategories() != null ? !getCategories().equals(this)  ? getCategories().toString().replaceAll("  ","    ") : "this" : "null") + System.getProperties().getProperty("line.separator") +
             "  " + "where2Eat = "+(getWhere2Eat()!=null?Integer.toHexString(System.identityHashCode(getWhere2Eat())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "restaurantAddress = "+(getRestaurantAddress()!=null?Integer.toHexString(System.identityHashCode(getRestaurantAddress())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "phoneNumber = "+(getPhoneNumber()!=null?Integer.toHexString(System.identityHashCode(getPhoneNumber())):"null");

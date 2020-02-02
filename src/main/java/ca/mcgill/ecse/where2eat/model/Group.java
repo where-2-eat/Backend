@@ -4,7 +4,7 @@
 package ca.mcgill.ecse.where2eat.model;
 import java.util.*;
 
-// line 30 "../../../../../where2eat.ump"
+// line 32 "../../../../../where2eat.ump"
 public class Group
 {
 

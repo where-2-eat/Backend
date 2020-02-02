@@ -3,19 +3,19 @@
 
 package ca.mcgill.ecse.where2eat.model;
 
-// line 23 "../../../../../where2eat.ump"
-public class Login
+// line 25 "../../../../../where2eat.ump"
+public class UserLogin
 {
 
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
-  //Login Attributes
+  //UserLogin Attributes
   private String userName;
   private String password;
 
-  //Login Associations
+  //UserLogin Associations
   private User user;
   private Where2Eat where2Eat;
 
@@ -23,7 +23,7 @@ public class Login
   // CONSTRUCTOR
   //------------------------
 
-  public Login(String aUserName, String aPassword, Where2Eat aWhere2Eat)
+  public UserLogin(String aUserName, String aPassword, Where2Eat aWhere2Eat)
   {
     userName = aUserName;
     password = aPassword;
@@ -90,7 +90,7 @@ public class Login
     }
 
     user = aNewUser;
-    Login anOldUserLogin = aNewUser != null ? aNewUser.getUserLogin() : null;
+    UserLogin anOldUserLogin = aNewUser != null ? aNewUser.getUserLogin() : null;
 
     if (!this.equals(anOldUserLogin))
     {

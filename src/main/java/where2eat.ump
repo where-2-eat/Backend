@@ -1,10 +1,9 @@
 namespace ca.mcgill.ecse.where2eat.model;
 
-enum Category {Chinese, Indian, Portuguese}
 
 class Where2Eat {
   1 <@>- * User users;
-  1 <@>- * Login loginIDs;
+  1 <@>- * UserLogin loginIDs;
   1 <@>- * Group groups;
   1 <@>- * Restaurant restaurants;
   1 <@>- * Location locations;
@@ -12,15 +11,18 @@ class Where2Eat {
   1 <@>- * PhoneNumber phoneNumbers;
 }
 
-class User
-{
+enum UserRole{ Admin, User}
+
+class User 
+{ 
+  UserRole role;
   String firstName;
   String lastName;
-  String userID;
-  Category category;
+  Integer userID;
+  Set<Category> categories;
 }
 
-class Login
+class UserLogin
 {
   String userName;
   String password;
@@ -30,7 +32,7 @@ class Login
 class Group
 {
   String name;
-String groupID;
+  String groupID;
   * userGroups -- 1..* User;
   0..1 ->0..1 Location selectedLocation;
   *-> 0..1 Restaurant recommendation;
@@ -39,7 +41,7 @@ String groupID;
 class Restaurant
 {
   String name;
-  Category category;
+  Set<Category> categories;
   String restaurantID;
 }
 

@@ -4,7 +4,9 @@
 package ca.mcgill.ecse.where2eat.model;
 import java.util.*;
 
-// line 5 "../../../../../where2eat.ump"
+import ca.mcgill.ecse.where2eat.model.User.UserRole;
+
+// line 4 "../../../../../where2eat.ump"
 public class Where2Eat
 {
 
@@ -14,7 +16,7 @@ public class Where2Eat
 
   //Where2Eat Associations
   private List<User> users;
-  private List<Login> loginIDs;
+  private List<UserLogin> loginIDs;
   private List<Group> groups;
   private List<Restaurant> restaurants;
   private List<Location> locations;
@@ -28,7 +30,7 @@ public class Where2Eat
   public Where2Eat()
   {
     users = new ArrayList<User>();
-    loginIDs = new ArrayList<Login>();
+    loginIDs = new ArrayList<UserLogin>();
     groups = new ArrayList<Group>();
     restaurants = new ArrayList<Restaurant>();
     locations = new ArrayList<Location>();
@@ -70,15 +72,15 @@ public class Where2Eat
     return index;
   }
 
-  public Login getLoginID(int index)
+  public UserLogin getLoginID(int index)
   {
-    Login aLoginID = loginIDs.get(index);
+    UserLogin aLoginID = loginIDs.get(index);
     return aLoginID;
   }
 
-  public List<Login> getLoginIDs()
+  public List<UserLogin> getLoginIDs()
   {
-    List<Login> newLoginIDs = Collections.unmodifiableList(loginIDs);
+    List<UserLogin> newLoginIDs = Collections.unmodifiableList(loginIDs);
     return newLoginIDs;
   }
 
@@ -94,7 +96,7 @@ public class Where2Eat
     return has;
   }
 
-  public int indexOfLoginID(Login aLoginID)
+  public int indexOfLoginID(UserLogin aLoginID)
   {
     int index = loginIDs.indexOf(aLoginID);
     return index;
@@ -255,9 +257,9 @@ public class Where2Eat
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public User addUser(String aFirstName, String aLastName, String aUserID, Category aCategory, Login aUserLogin)
+  public User addUser(UserRole aRole, String aFirstName, String aLastName, int aUserID, Set<Category> aCategories, UserLogin aUserLogin)
   {
-    return new User(aFirstName, aLastName, aUserID, aCategory, this, aUserLogin);
+    return new User(aRole, aFirstName, aLastName, aUserID, aCategories, this, aUserLogin);
   }
 
   public boolean addUser(User aUser)
@@ -327,12 +329,12 @@ public class Where2Eat
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Login addLoginID(String aUserName, String aPassword)
+  public UserLogin addLoginID(String aUserName, String aPassword)
   {
-    return new Login(aUserName, aPassword, this);
+    return new UserLogin(aUserName, aPassword, this);
   }
 
-  public boolean addLoginID(Login aLoginID)
+  public boolean addLoginID(UserLogin aLoginID)
   {
     boolean wasAdded = false;
     if (loginIDs.contains(aLoginID)) { return false; }
@@ -350,7 +352,7 @@ public class Where2Eat
     return wasAdded;
   }
 
-  public boolean removeLoginID(Login aLoginID)
+  public boolean removeLoginID(UserLogin aLoginID)
   {
     boolean wasRemoved = false;
     //Unable to remove aLoginID, as it must always have a where2Eat
@@ -362,7 +364,7 @@ public class Where2Eat
     return wasRemoved;
   }
 
-  public boolean addLoginIDAt(Login aLoginID, int index)
+  public boolean addLoginIDAt(UserLogin aLoginID, int index)
   {  
     boolean wasAdded = false;
     if(addLoginID(aLoginID))
@@ -376,7 +378,7 @@ public class Where2Eat
     return wasAdded;
   }
 
-  public boolean addOrMoveLoginIDAt(Login aLoginID, int index)
+  public boolean addOrMoveLoginIDAt(UserLogin aLoginID, int index)
   {
     boolean wasAdded = false;
     if(loginIDs.contains(aLoginID))
@@ -471,9 +473,9 @@ public class Where2Eat
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Restaurant addRestaurant(String aName, Category aCategory, String aRestaurantID)
+  public Restaurant addRestaurant(String aName, Set<Category> aCategories, String aRestaurantID)
   {
-    return new Restaurant(aName, aCategory, aRestaurantID, this);
+    return new Restaurant(aName, aCategories, aRestaurantID, this);
   }
 
   public boolean addRestaurant(Restaurant aRestaurant)
@@ -765,7 +767,7 @@ public class Where2Eat
     
     while (loginIDs.size() > 0)
     {
-      Login aLoginID = loginIDs.get(loginIDs.size() - 1);
+      UserLogin aLoginID = loginIDs.get(loginIDs.size() - 1);
       aLoginID.delete();
       loginIDs.remove(aLoginID);
     }

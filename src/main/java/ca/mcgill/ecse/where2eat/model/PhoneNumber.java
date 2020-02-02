@@ -3,7 +3,7 @@
 
 package ca.mcgill.ecse.where2eat.model;
 
-// line 62 "../../../../../where2eat.ump"
+// line 64 "../../../../../where2eat.ump"
 public class PhoneNumber
 {
 
