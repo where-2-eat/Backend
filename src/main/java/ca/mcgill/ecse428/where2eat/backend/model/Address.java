@@ -1,9 +1,9 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
+/*This code was generated using the UMPLE 1.29.1.4262.30c9ffc7c modeling language!*/
 
-package ca.mcgill.ecse.where2eat.model;
+package ca.mcgill.ecse428.where2eat.backend.model;
 
-// line 54 "../../../../../where2eat.ump"
+// line 56 "../../../../../../../../../src/main/java/where2eat.ump"
 public class Address
 {
 
@@ -93,7 +93,7 @@ public class Address
   {
     return city;
   }
-
+  /* Code from template association_GetOne */
   public Location getRestaurantLocation()
   {
     return restaurantLocation;
@@ -104,12 +104,12 @@ public class Address
     boolean has = restaurantLocation != null;
     return has;
   }
-
+  /* Code from template association_GetOne */
   public Where2Eat getWhere2Eat()
   {
     return where2Eat;
   }
-
+  /* Code from template association_SetUnidirectionalOptionalOne */
   public boolean setRestaurantLocation(Location aNewRestaurantLocation)
   {
     boolean wasSet = false;
@@ -117,7 +117,7 @@ public class Address
     wasSet = true;
     return wasSet;
   }
-
+  /* Code from template association_SetOneToMany */
   public boolean setWhere2Eat(Where2Eat aWhere2Eat)
   {
     boolean wasSet = false;

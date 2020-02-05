@@ -1,4 +1,4 @@
-package ca.mcgill.ecse.where2eat.model;
+package ca.mcgill.ecse428.where2eat.backend.model;
 
 public enum Category {
 	Afghani, 
