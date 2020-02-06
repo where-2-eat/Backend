@@ -1,9 +1,11 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4262.30c9ffc7c modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 package ca.mcgill.ecse428.where2eat.backend.model;
+import javax.persistence.*;
 
-// line 50 "../../../../../../../../../src/main/java/where2eat.ump"
+// line 50 "../../../../../../where2eat.ump"
+@Entity
 public class Location
 {
 
@@ -14,18 +16,22 @@ public class Location
   //Location Attributes
   private double xCoordinate;
   private double yCoordinate;
+  @Id
+  private int locationID;
 
   //Location Associations
+  @ManyToOne(optional = true)
   private Where2Eat where2Eat;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Location(double aXCoordinate, double aYCoordinate, Where2Eat aWhere2Eat)
+  public Location(double aXCoordinate, double aYCoordinate, int aLocationID, Where2Eat aWhere2Eat)
   {
     xCoordinate = aXCoordinate;
     yCoordinate = aYCoordinate;
+    locationID = aLocationID;
     boolean didAddWhere2Eat = setWhere2Eat(aWhere2Eat);
     if (!didAddWhere2Eat)
     {
@@ -53,6 +59,14 @@ public class Location
     return wasSet;
   }
 
+  public boolean setLocationID(int aLocationID)
+  {
+    boolean wasSet = false;
+    locationID = aLocationID;
+    wasSet = true;
+    return wasSet;
+  }
+
   public double getXCoordinate()
   {
     return xCoordinate;
@@ -62,12 +76,17 @@ public class Location
   {
     return yCoordinate;
   }
-  /* Code from template association_GetOne */
+
+  public int getLocationID()
+  {
+    return locationID;
+  }
+
   public Where2Eat getWhere2Eat()
   {
     return where2Eat;
   }
-  /* Code from template association_SetOneToMany */
+
   public boolean setWhere2Eat(Where2Eat aWhere2Eat)
   {
     boolean wasSet = false;
@@ -102,7 +121,8 @@ public class Location
   {
     return super.toString() + "["+
             "xCoordinate" + ":" + getXCoordinate()+ "," +
-            "yCoordinate" + ":" + getYCoordinate()+ "]" + System.getProperties().getProperty("line.separator") +
+            "yCoordinate" + ":" + getYCoordinate()+ "," +
+            "locationID" + ":" + getLocationID()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "where2Eat = "+(getWhere2Eat()!=null?Integer.toHexString(System.identityHashCode(getWhere2Eat())):"null");
   }
 }

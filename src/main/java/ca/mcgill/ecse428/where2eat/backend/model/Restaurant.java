@@ -1,10 +1,13 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4262.30c9ffc7c modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 package ca.mcgill.ecse428.where2eat.backend.model;
 import java.util.*;
 
-// line 42 "../../../../../../../../../src/main/java/where2eat.ump"
+import javax.persistence.*;
+
+// line 42 "../../../../../../where2eat.ump"
+@Entity
 public class Restaurant
 {
 
@@ -15,11 +18,15 @@ public class Restaurant
   //Restaurant Attributes
   private String name;
   private Set<Category> categories;
+  @Id
   private String restaurantID;
 
   //Restaurant Associations
+  @ManyToOne(optional = true)
   private Where2Eat where2Eat;
+  @OneToOne(optional = true)
   private Address restaurantAddress;
+  @OneToOne(optional = true)
   private PhoneNumber phoneNumber;
 
   //------------------------
@@ -80,12 +87,12 @@ public class Restaurant
   {
     return restaurantID;
   }
-  /* Code from template association_GetOne */
+
   public Where2Eat getWhere2Eat()
   {
     return where2Eat;
   }
-  /* Code from template association_GetOne */
+
   public Address getRestaurantAddress()
   {
     return restaurantAddress;
@@ -96,7 +103,7 @@ public class Restaurant
     boolean has = restaurantAddress != null;
     return has;
   }
-  /* Code from template association_GetOne */
+
   public PhoneNumber getPhoneNumber()
   {
     return phoneNumber;
@@ -107,7 +114,7 @@ public class Restaurant
     boolean has = phoneNumber != null;
     return has;
   }
-  /* Code from template association_SetOneToMany */
+
   public boolean setWhere2Eat(Where2Eat aWhere2Eat)
   {
     boolean wasSet = false;
@@ -126,7 +133,7 @@ public class Restaurant
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetUnidirectionalOptionalOne */
+
   public boolean setRestaurantAddress(Address aNewRestaurantAddress)
   {
     boolean wasSet = false;
@@ -134,7 +141,7 @@ public class Restaurant
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetUnidirectionalOptionalOne */
+
   public boolean setPhoneNumber(PhoneNumber aNewPhoneNumber)
   {
     boolean wasSet = false;

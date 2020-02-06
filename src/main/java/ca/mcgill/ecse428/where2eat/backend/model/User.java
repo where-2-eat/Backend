@@ -1,13 +1,16 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4262.30c9ffc7c modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 package ca.mcgill.ecse428.where2eat.backend.model;
 import java.util.*;
 
+import javax.persistence.*;
+
 /**
  * enum UserRole{ Admin, User}
  */
-// line 17 "../../../../../../../../../src/main/java/where2eat.ump"
+// line 17 "../../../../../../where2eat.ump"
+@Entity
 public class User
 {
 
@@ -19,13 +22,18 @@ public class User
   private UserRole role;
   private String firstName;
   private String lastName;
+  @Id
   private int userID;
   private Set<Category> categories;
 
   //User Associations
+  @ManyToOne(optional = true)
   private Where2Eat where2Eat;
+  @OneToOne(optional = true)
   private UserLogin userLogin;
+  @ManyToMany
   private List<Group> userGroups;
+  @OneToOne(optional = true)
   private PhoneNumber phoneNumber;
 
   //------------------------
@@ -120,17 +128,17 @@ public class User
   {
     return categories;
   }
-  /* Code from template association_GetOne */
+
   public Where2Eat getWhere2Eat()
   {
     return where2Eat;
   }
-  /* Code from template association_GetOne */
+
   public UserLogin getUserLogin()
   {
     return userLogin;
   }
-  /* Code from template association_GetMany */
+
   public Group getUserGroup(int index)
   {
     Group aUserGroup = userGroups.get(index);
@@ -160,7 +168,7 @@ public class User
     int index = userGroups.indexOf(aUserGroup);
     return index;
   }
-  /* Code from template association_GetOne */
+
   public PhoneNumber getPhoneNumber()
   {
     return phoneNumber;
@@ -171,7 +179,7 @@ public class User
     boolean has = phoneNumber != null;
     return has;
   }
-  /* Code from template association_SetOneToMany */
+
   public boolean setWhere2Eat(Where2Eat aWhere2Eat)
   {
     boolean wasSet = false;
@@ -190,7 +198,7 @@ public class User
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOneToOptionalOne */
+
   public boolean setUserLogin(UserLogin aNewUserLogin)
   {
     boolean wasSet = false;
@@ -218,12 +226,12 @@ public class User
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfUserGroups()
   {
     return 0;
   }
-  /* Code from template association_AddManyToManyMethod */
+
   public boolean addUserGroup(Group aUserGroup)
   {
     boolean wasAdded = false;
@@ -243,7 +251,7 @@ public class User
     }
     return wasAdded;
   }
-  /* Code from template association_RemoveMany */
+
   public boolean removeUserGroup(Group aUserGroup)
   {
     boolean wasRemoved = false;
@@ -268,7 +276,7 @@ public class User
     }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addUserGroupAt(Group aUserGroup, int index)
   {  
     boolean wasAdded = false;
@@ -300,7 +308,7 @@ public class User
     }
     return wasAdded;
   }
-  /* Code from template association_SetUnidirectionalOptionalOne */
+
   public boolean setPhoneNumber(PhoneNumber aNewPhoneNumber)
   {
     boolean wasSet = false;

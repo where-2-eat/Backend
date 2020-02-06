@@ -1,9 +1,11 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4262.30c9ffc7c modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 package ca.mcgill.ecse428.where2eat.backend.model;
+import javax.persistence.*;
 
-// line 56 "../../../../../../../../../src/main/java/where2eat.ump"
+// line 57 "../../../../../../where2eat.ump"
+@Entity
 public class Address
 {
 
@@ -16,21 +18,26 @@ public class Address
   private String streetNumber;
   private String streetAddress;
   private String city;
+  @Id
+  private int addressID;
 
   //Address Associations
+  @OneToOne(optional = true)
   private Location restaurantLocation;
+  @ManyToOne
   private Where2Eat where2Eat;
 
   //------------------------
   // CONSTRUCTOR
   //------------------------
 
-  public Address(String aPostalCode, String aStreetNumber, String aStreetAddress, String aCity, Where2Eat aWhere2Eat)
+  public Address(String aPostalCode, String aStreetNumber, String aStreetAddress, String aCity, int aAddressID, Where2Eat aWhere2Eat)
   {
     postalCode = aPostalCode;
     streetNumber = aStreetNumber;
     streetAddress = aStreetAddress;
     city = aCity;
+    addressID = aAddressID;
     boolean didAddWhere2Eat = setWhere2Eat(aWhere2Eat);
     if (!didAddWhere2Eat)
     {
@@ -74,6 +81,14 @@ public class Address
     return wasSet;
   }
 
+  public boolean setAddressID(int aAddressID)
+  {
+    boolean wasSet = false;
+    addressID = aAddressID;
+    wasSet = true;
+    return wasSet;
+  }
+
   public String getPostalCode()
   {
     return postalCode;
@@ -93,7 +108,12 @@ public class Address
   {
     return city;
   }
-  /* Code from template association_GetOne */
+
+  public int getAddressID()
+  {
+    return addressID;
+  }
+
   public Location getRestaurantLocation()
   {
     return restaurantLocation;
@@ -104,12 +124,12 @@ public class Address
     boolean has = restaurantLocation != null;
     return has;
   }
-  /* Code from template association_GetOne */
+
   public Where2Eat getWhere2Eat()
   {
     return where2Eat;
   }
-  /* Code from template association_SetUnidirectionalOptionalOne */
+
   public boolean setRestaurantLocation(Location aNewRestaurantLocation)
   {
     boolean wasSet = false;
@@ -117,7 +137,7 @@ public class Address
     wasSet = true;
     return wasSet;
   }
-  /* Code from template association_SetOneToMany */
+
   public boolean setWhere2Eat(Where2Eat aWhere2Eat)
   {
     boolean wasSet = false;
@@ -155,7 +175,8 @@ public class Address
             "postalCode" + ":" + getPostalCode()+ "," +
             "streetNumber" + ":" + getStreetNumber()+ "," +
             "streetAddress" + ":" + getStreetAddress()+ "," +
-            "city" + ":" + getCity()+ "]" + System.getProperties().getProperty("line.separator") +
+            "city" + ":" + getCity()+ "," +
+            "addressID" + ":" + getAddressID()+ "]" + System.getProperties().getProperty("line.separator") +
             "  " + "restaurantLocation = "+(getRestaurantLocation()!=null?Integer.toHexString(System.identityHashCode(getRestaurantLocation())):"null") + System.getProperties().getProperty("line.separator") +
             "  " + "where2Eat = "+(getWhere2Eat()!=null?Integer.toHexString(System.identityHashCode(getWhere2Eat())):"null");
   }

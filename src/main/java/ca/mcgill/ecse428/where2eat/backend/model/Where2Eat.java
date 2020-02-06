@@ -1,24 +1,39 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.29.1.4262.30c9ffc7c modeling language!*/
+/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
 
 package ca.mcgill.ecse428.where2eat.backend.model;
 import java.util.*;
 
-// line 4 "../../../../../../../../../src/main/java/where2eat.ump"
+import javax.persistence.*;
+
+import java.util.*;
+
+// line 4 "../../../../../../where2eat.ump"
+@Entity
 public class Where2Eat
 {
-
   //------------------------
   // MEMBER VARIABLES
   //------------------------
 
+  //Where2Eat Attributes
+  @Id
+  private int systemID;
+	
   //Where2Eat Associations
+  @OneToMany(cascade={CascadeType.ALL})
   private List<User> users;
+  @OneToMany(cascade={CascadeType.ALL})
   private List<UserLogin> loginIDs;
+  @OneToMany(cascade={CascadeType.ALL})
   private List<Group> groups;
+  @OneToMany(cascade={CascadeType.ALL})
   private List<Restaurant> restaurants;
+  @OneToMany(cascade={CascadeType.ALL})
   private List<Location> locations;
+  @OneToMany(cascade={CascadeType.ALL})
   private List<Address> addresses;
+  @OneToMany(cascade={CascadeType.ALL})
   private List<PhoneNumber> phoneNumbers;
 
   //------------------------
@@ -39,7 +54,15 @@ public class Where2Eat
   //------------------------
   // INTERFACE
   //------------------------
-  /* Code from template association_GetMany */
+  
+  public boolean setSystemID(int aSystemID)
+  {
+    boolean wasSet = false;
+    systemID = aSystemID;
+    wasSet = true;
+    return wasSet;
+  }
+
   public User getUser(int index)
   {
     User aUser = users.get(index);
@@ -69,7 +92,11 @@ public class Where2Eat
     int index = users.indexOf(aUser);
     return index;
   }
-  /* Code from template association_GetMany */
+  
+  public int getSystemID() {
+	  return systemID;
+  }
+
   public UserLogin getLoginID(int index)
   {
     UserLogin aLoginID = loginIDs.get(index);
@@ -99,7 +126,7 @@ public class Where2Eat
     int index = loginIDs.indexOf(aLoginID);
     return index;
   }
-  /* Code from template association_GetMany */
+
   public Group getGroup(int index)
   {
     Group aGroup = groups.get(index);
@@ -129,7 +156,7 @@ public class Where2Eat
     int index = groups.indexOf(aGroup);
     return index;
   }
-  /* Code from template association_GetMany */
+
   public Restaurant getRestaurant(int index)
   {
     Restaurant aRestaurant = restaurants.get(index);
@@ -159,7 +186,7 @@ public class Where2Eat
     int index = restaurants.indexOf(aRestaurant);
     return index;
   }
-  /* Code from template association_GetMany */
+
   public Location getLocation(int index)
   {
     Location aLocation = locations.get(index);
@@ -189,7 +216,7 @@ public class Where2Eat
     int index = locations.indexOf(aLocation);
     return index;
   }
-  /* Code from template association_GetMany */
+
   public Address getAddress(int index)
   {
     Address aAddress = addresses.get(index);
@@ -219,7 +246,7 @@ public class Where2Eat
     int index = addresses.indexOf(aAddress);
     return index;
   }
-  /* Code from template association_GetMany */
+
   public PhoneNumber getPhoneNumber(int index)
   {
     PhoneNumber aPhoneNumber = phoneNumbers.get(index);
@@ -249,7 +276,7 @@ public class Where2Eat
     int index = phoneNumbers.indexOf(aPhoneNumber);
     return index;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfUsers()
   {
     return 0;
@@ -289,7 +316,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addUserAt(User aUser, int index)
   {  
     boolean wasAdded = false;
@@ -321,7 +348,7 @@ public class Where2Eat
     }
     return wasAdded;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfLoginIDs()
   {
     return 0;
@@ -361,7 +388,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addLoginIDAt(UserLogin aLoginID, int index)
   {  
     boolean wasAdded = false;
@@ -393,7 +420,7 @@ public class Where2Eat
     }
     return wasAdded;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfGroups()
   {
     return 0;
@@ -433,7 +460,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addGroupAt(Group aGroup, int index)
   {  
     boolean wasAdded = false;
@@ -465,7 +492,7 @@ public class Where2Eat
     }
     return wasAdded;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfRestaurants()
   {
     return 0;
@@ -505,7 +532,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addRestaurantAt(Restaurant aRestaurant, int index)
   {  
     boolean wasAdded = false;
@@ -537,15 +564,15 @@ public class Where2Eat
     }
     return wasAdded;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfLocations()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Location addLocation(double aXCoordinate, double aYCoordinate)
+  public Location addLocation(double aXCoordinate, double aYCoordinate, int aLocationID)
   {
-    return new Location(aXCoordinate, aYCoordinate, this);
+    return new Location(aXCoordinate, aYCoordinate, aLocationID, this);
   }
 
   public boolean addLocation(Location aLocation)
@@ -577,7 +604,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addLocationAt(Location aLocation, int index)
   {  
     boolean wasAdded = false;
@@ -609,15 +636,15 @@ public class Where2Eat
     }
     return wasAdded;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfAddresses()
   {
     return 0;
   }
   /* Code from template association_AddManyToOne */
-  public Address addAddress(String aPostalCode, String aStreetNumber, String aStreetAddress, String aCity)
+  public Address addAddress(String aPostalCode, String aStreetNumber, String aStreetAddress, String aCity, int aAddressID)
   {
-    return new Address(aPostalCode, aStreetNumber, aStreetAddress, aCity, this);
+    return new Address(aPostalCode, aStreetNumber, aStreetAddress, aCity, aAddressID, this);
   }
 
   public boolean addAddress(Address aAddress)
@@ -649,7 +676,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addAddressAt(Address aAddress, int index)
   {  
     boolean wasAdded = false;
@@ -681,7 +708,7 @@ public class Where2Eat
     }
     return wasAdded;
   }
-  /* Code from template association_MinimumNumberOfMethod */
+
   public static int minimumNumberOfPhoneNumbers()
   {
     return 0;
@@ -721,7 +748,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-  /* Code from template association_AddIndexControlFunctions */
+
   public boolean addPhoneNumberAt(PhoneNumber aPhoneNumber, int index)
   {  
     boolean wasAdded = false;

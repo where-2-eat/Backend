@@ -3,6 +3,7 @@ namespace ca.mcgill.ecse428.where2eat.backend.model;
 
 class Where2Eat {
   depend java.util.*;
+  Integer systemID;
   1 <@>- * User users;
   1 <@>- * UserLogin loginIDs;
   1 <@>- * Group groups;
@@ -51,6 +52,7 @@ class Location
 {
   Double xCoordinate;
   Double yCoordinate;
+  Integer locationID;
   }
 
 class Address
@@ -59,6 +61,7 @@ class Address
   String streetNumber;
   String streetAddress;
   String city;
+  Integer addressID;
   0..1 restaurantAddress<- 0..1 Restaurant;
   0..1 -> 0..1 Location restaurantLocation;
 }
