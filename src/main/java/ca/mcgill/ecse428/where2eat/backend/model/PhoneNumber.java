@@ -1,9 +1,9 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
+/*This code was generated using the UMPLE 1.29.1.4262.30c9ffc7c modeling language!*/
 
-package ca.mcgill.ecse.where2eat.model;
+package ca.mcgill.ecse428.where2eat.backend.model;
 
-// line 64 "../../../../../where2eat.ump"
+// line 66 "../../../../../../../../../src/main/java/where2eat.ump"
 public class PhoneNumber
 {
 
@@ -62,12 +62,12 @@ public class PhoneNumber
   {
     return localNumber;
   }
-
+  /* Code from template association_GetOne */
   public Where2Eat getWhere2Eat()
   {
     return where2Eat;
   }
-
+  /* Code from template association_SetOneToMany */
   public boolean setWhere2Eat(Where2Eat aWhere2Eat)
   {
     boolean wasSet = false;

@@ -1,12 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
+/*This code was generated using the UMPLE 1.29.1.4262.30c9ffc7c modeling language!*/
 
-package ca.mcgill.ecse.where2eat.model;
+package ca.mcgill.ecse428.where2eat.backend.model;
 import java.util.*;
 
-import ca.mcgill.ecse.where2eat.model.User.UserRole;
-
-// line 4 "../../../../../where2eat.ump"
+// line 4 "../../../../../../../../../src/main/java/where2eat.ump"
 public class Where2Eat
 {
 
@@ -41,7 +39,7 @@ public class Where2Eat
   //------------------------
   // INTERFACE
   //------------------------
-
+  /* Code from template association_GetMany */
   public User getUser(int index)
   {
     User aUser = users.get(index);
@@ -71,7 +69,7 @@ public class Where2Eat
     int index = users.indexOf(aUser);
     return index;
   }
-
+  /* Code from template association_GetMany */
   public UserLogin getLoginID(int index)
   {
     UserLogin aLoginID = loginIDs.get(index);
@@ -101,7 +99,7 @@ public class Where2Eat
     int index = loginIDs.indexOf(aLoginID);
     return index;
   }
-
+  /* Code from template association_GetMany */
   public Group getGroup(int index)
   {
     Group aGroup = groups.get(index);
@@ -131,7 +129,7 @@ public class Where2Eat
     int index = groups.indexOf(aGroup);
     return index;
   }
-
+  /* Code from template association_GetMany */
   public Restaurant getRestaurant(int index)
   {
     Restaurant aRestaurant = restaurants.get(index);
@@ -161,7 +159,7 @@ public class Where2Eat
     int index = restaurants.indexOf(aRestaurant);
     return index;
   }
-
+  /* Code from template association_GetMany */
   public Location getLocation(int index)
   {
     Location aLocation = locations.get(index);
@@ -191,7 +189,7 @@ public class Where2Eat
     int index = locations.indexOf(aLocation);
     return index;
   }
-
+  /* Code from template association_GetMany */
   public Address getAddress(int index)
   {
     Address aAddress = addresses.get(index);
@@ -221,7 +219,7 @@ public class Where2Eat
     int index = addresses.indexOf(aAddress);
     return index;
   }
-
+  /* Code from template association_GetMany */
   public PhoneNumber getPhoneNumber(int index)
   {
     PhoneNumber aPhoneNumber = phoneNumbers.get(index);
@@ -251,7 +249,7 @@ public class Where2Eat
     int index = phoneNumbers.indexOf(aPhoneNumber);
     return index;
   }
-
+  /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfUsers()
   {
     return 0;
@@ -291,7 +289,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-
+  /* Code from template association_AddIndexControlFunctions */
   public boolean addUserAt(User aUser, int index)
   {  
     boolean wasAdded = false;
@@ -323,7 +321,7 @@ public class Where2Eat
     }
     return wasAdded;
   }
-
+  /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfLoginIDs()
   {
     return 0;
@@ -363,7 +361,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-
+  /* Code from template association_AddIndexControlFunctions */
   public boolean addLoginIDAt(UserLogin aLoginID, int index)
   {  
     boolean wasAdded = false;
@@ -395,7 +393,7 @@ public class Where2Eat
     }
     return wasAdded;
   }
-
+  /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfGroups()
   {
     return 0;
@@ -435,7 +433,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-
+  /* Code from template association_AddIndexControlFunctions */
   public boolean addGroupAt(Group aGroup, int index)
   {  
     boolean wasAdded = false;
@@ -467,7 +465,7 @@ public class Where2Eat
     }
     return wasAdded;
   }
-
+  /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfRestaurants()
   {
     return 0;
@@ -507,7 +505,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-
+  /* Code from template association_AddIndexControlFunctions */
   public boolean addRestaurantAt(Restaurant aRestaurant, int index)
   {  
     boolean wasAdded = false;
@@ -539,7 +537,7 @@ public class Where2Eat
     }
     return wasAdded;
   }
-
+  /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfLocations()
   {
     return 0;
@@ -579,7 +577,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-
+  /* Code from template association_AddIndexControlFunctions */
   public boolean addLocationAt(Location aLocation, int index)
   {  
     boolean wasAdded = false;
@@ -611,7 +609,7 @@ public class Where2Eat
     }
     return wasAdded;
   }
-
+  /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfAddresses()
   {
     return 0;
@@ -651,7 +649,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-
+  /* Code from template association_AddIndexControlFunctions */
   public boolean addAddressAt(Address aAddress, int index)
   {  
     boolean wasAdded = false;
@@ -683,7 +681,7 @@ public class Where2Eat
     }
     return wasAdded;
   }
-
+  /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfPhoneNumbers()
   {
     return 0;
@@ -723,7 +721,7 @@ public class Where2Eat
     }
     return wasRemoved;
   }
-
+  /* Code from template association_AddIndexControlFunctions */
   public boolean addPhoneNumberAt(PhoneNumber aPhoneNumber, int index)
   {  
     boolean wasAdded = false;

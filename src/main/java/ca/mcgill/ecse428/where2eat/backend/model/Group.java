@@ -1,10 +1,10 @@
 /*PLEASE DO NOT EDIT THIS CODE*/
-/*This code was generated using the UMPLE 1.27.0.3728.d139ed893 modeling language!*/
+/*This code was generated using the UMPLE 1.29.1.4262.30c9ffc7c modeling language!*/
 
-package ca.mcgill.ecse.where2eat.model;
+package ca.mcgill.ecse428.where2eat.backend.model;
 import java.util.*;
 
-// line 32 "../../../../../where2eat.ump"
+// line 33 "../../../../../../../../../src/main/java/where2eat.ump"
 public class Group
 {
 
@@ -72,7 +72,7 @@ public class Group
   {
     return groupID;
   }
-
+  /* Code from template association_GetMany */
   public User getUser(int index)
   {
     User aUser = users.get(index);
@@ -102,7 +102,7 @@ public class Group
     int index = users.indexOf(aUser);
     return index;
   }
-
+  /* Code from template association_GetOne */
   public Location getSelectedLocation()
   {
     return selectedLocation;
@@ -113,7 +113,7 @@ public class Group
     boolean has = selectedLocation != null;
     return has;
   }
-
+  /* Code from template association_GetOne */
   public Restaurant getRecommendation()
   {
     return recommendation;
@@ -124,23 +124,23 @@ public class Group
     boolean has = recommendation != null;
     return has;
   }
-
+  /* Code from template association_GetOne */
   public Where2Eat getWhere2Eat()
   {
     return where2Eat;
   }
-
+  /* Code from template association_IsNumberOfValidMethod */
   public boolean isNumberOfUsersValid()
   {
     boolean isValid = numberOfUsers() >= minimumNumberOfUsers();
     return isValid;
   }
-
+  /* Code from template association_MinimumNumberOfMethod */
   public static int minimumNumberOfUsers()
   {
     return 1;
   }
-
+  /* Code from template association_AddManyToManyMethod */
   public boolean addUser(User aUser)
   {
     boolean wasAdded = false;
@@ -160,7 +160,7 @@ public class Group
     }
     return wasAdded;
   }
-
+  /* Code from template association_AddMStarToMany */
   public boolean removeUser(User aUser)
   {
     boolean wasRemoved = false;
@@ -190,7 +190,7 @@ public class Group
     }
     return wasRemoved;
   }
-
+  /* Code from template association_SetMStarToMany */
   public boolean setUsers(User... newUsers)
   {
     boolean wasSet = false;
@@ -231,7 +231,7 @@ public class Group
     wasSet = true;
     return wasSet;
   }
-
+  /* Code from template association_AddIndexControlFunctions */
   public boolean addUserAt(User aUser, int index)
   {  
     boolean wasAdded = false;
@@ -263,7 +263,7 @@ public class Group
     }
     return wasAdded;
   }
-
+  /* Code from template association_SetUnidirectionalOptionalOne */
   public boolean setSelectedLocation(Location aNewSelectedLocation)
   {
     boolean wasSet = false;
@@ -271,7 +271,7 @@ public class Group
     wasSet = true;
     return wasSet;
   }
-
+  /* Code from template association_SetUnidirectionalOptionalOne */
   public boolean setRecommendation(Restaurant aNewRecommendation)
   {
     boolean wasSet = false;
@@ -279,7 +279,7 @@ public class Group
     wasSet = true;
     return wasSet;
   }
-
+  /* Code from template association_SetOneToMany */
   public boolean setWhere2Eat(Where2Eat aWhere2Eat)
   {
     boolean wasSet = false;
