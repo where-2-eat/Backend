@@ -9,7 +9,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 import ca.mcgill.ecse428.where2eat.backend.model.*;
 import ca.mcgill.ecse428.where2eat.backend.dao.*;
+import org.springframework.stereotype.Service;
 
+@Service
 public class Where2EatService {
 	
 	@Autowired

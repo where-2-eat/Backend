@@ -1,20 +1,9 @@
 package ca.mcgill.ecse428.where2eat.backend.service;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
-import java.sql.Date;
-import java.util.List;
-import java.util.Set;
-
+import ca.mcgill.ecse428.where2eat.backend.dao.UserRepository;
+import ca.mcgill.ecse428.where2eat.backend.model.UserLogin;
+import ca.mcgill.ecse428.where2eat.backend.model.Where2Eat;
 import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
-import org.junit.runner.RunWith;
-import org.springframework.boot.test.context.SpringBootTest;
-import org.assertj.core.util.Arrays;
-import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -22,9 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import ca.mcgill.ecse428.where2eat.backend.dao.*;
-import ca.mcgill.ecse428.where2eat.backend.model.*;
-import ca.mcgill.ecse428.where2eat.backend.service.*;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -36,14 +26,11 @@ public class TestWhere2EatService {
 	@Autowired
 	private UserRepository userRepository;
 
-	@Autowired
-	private UserLogin userLoginRepository;
 
 	@Before
 	@After
 	public void clearDatabase() {
 		userRepository.deleteAll();
-		userLoginRepository.delete();;
 	}
 
 	/*

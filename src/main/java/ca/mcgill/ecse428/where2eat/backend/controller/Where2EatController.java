@@ -7,7 +7,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import ca.mcgill.ecse428.where2eat.backend.model.*;
 import ca.mcgill.ecse428.where2eat.backend.service.*;
 
 /**
@@ -17,7 +16,6 @@ import ca.mcgill.ecse428.where2eat.backend.service.*;
 @RestController
 public class Where2EatController {
 
-    // HERE IS THE PROBLEM LEL
     @Autowired
     Where2EatService service;
 
