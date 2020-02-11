@@ -1,21 +1,18 @@
 package ca.mcgill.ecse428.where2eat.backend.service;
 
-import java.util.ArrayList;
-import java.util.List;
+import ca.mcgill.ecse428.where2eat.backend.dao.UserLoginRepository;
+import ca.mcgill.ecse428.where2eat.backend.model.UserLogin;
+import ca.mcgill.ecse428.where2eat.backend.model.Where2Eat;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-
-import org.springframework.beans.factory.annotation.Autowired;
-
-import ca.mcgill.ecse428.where2eat.backend.model.*;
-import ca.mcgill.ecse428.where2eat.backend.dao.*;
-import org.springframework.stereotype.Service;
+import java.util.List;
+import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 @Service
 public class Where2EatService {
-	
-	@Autowired
-	private UserRepository userRepository;
 	
 	@Autowired
 	private UserLoginRepository userLoginRepository;
@@ -25,14 +22,7 @@ public class Where2EatService {
         // TODO: Implement this method
         return false;
     }
-    
-    private <T> List<T> toList(Iterable<T> iterable) {
-		List<T> resultList = new ArrayList<T>();
-		for (T t: iterable) {
-			resultList.add(t);
-		}
-		return resultList;
-	}
+
     
     @Transactional
 	public UserLogin createLogin(String username, String password, Where2Eat w) {
@@ -66,7 +56,8 @@ public class Where2EatService {
 
 	@Transactional
 	public List<UserLogin> getAllLogins() {
-		return toList(userLoginRepository.findAll());
+		return StreamSupport.stream(userLoginRepository.findAll().spliterator(), false)
+				.collect(Collectors.toList());
 	}
 
 	@Transactional
