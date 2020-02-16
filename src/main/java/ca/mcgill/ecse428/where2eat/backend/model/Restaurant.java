@@ -8,101 +8,111 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
 @Entity
-public class Restaurant{
-   private String restaurantName;
+public class Restaurant {
+    private String restaurantName;
 
-public void setRestaurantName(String value) {
-    this.restaurantName = value;
-}
-public String getRestaurantName() {
-    return this.restaurantName;
-}
-private Integer resturantID;
+    public void setRestaurantName(String value) {
+        this.restaurantName = value;
+    }
 
-public void setResturantID(Integer value) {
-    this.resturantID = value;
-}
-@Id
-public Integer getResturantID() {
-    return this.resturantID;
-}
-private Set<UserGroup> group3;
+    public String getRestaurantName() {
+        return this.restaurantName;
+    }
 
-@ManyToMany
-public Set<UserGroup> getGroup3() {
-   return this.group3;
-}
+    private Integer resturantID;
 
-public void setGroup3(Set<UserGroup> group3s) {
-   this.group3 = group3s;
-}
+    public void setResturantID(Integer value) {
+        this.resturantID = value;
+    }
 
-private Location restaurantLocation;
+    @Id
+    public Integer getResturantID() {
+        return this.resturantID;
+    }
 
-@ManyToOne
-public Location getRestaurantLocation() {
-   return this.restaurantLocation;
-}
+    private Set<UserGroup> group3;
 
-public void setRestaurantLocation(Location restaurantLocation) {
-   this.restaurantLocation = restaurantLocation;
-}
+    @ManyToMany
+    public Set<UserGroup> getGroup3() {
+        return this.group3;
+    }
 
-private String phoneNumber;
+    public void setGroup3(Set<UserGroup> group3s) {
+        this.group3 = group3s;
+    }
 
-public void setPhoneNumber(String value) {
-    this.phoneNumber = value;
-}
-public String getPhoneNumber() {
-    return this.phoneNumber;
-}
-private Set<UserGroup> group1;
+    private Location restaurantLocation;
 
-@OneToMany(mappedBy="finalChoice" )
-public Set<UserGroup> getGroup1() {
-   return this.group1;
-}
+    @ManyToOne
+    public Location getRestaurantLocation() {
+        return this.restaurantLocation;
+    }
 
-public void setGroup1(Set<UserGroup> group1s) {
-   this.group1 = group1s;
-}
+    public void setRestaurantLocation(Location restaurantLocation) {
+        this.restaurantLocation = restaurantLocation;
+    }
 
-private String address;
+    private String phoneNumber;
 
-public void setAddress(String value) {
-    this.address = value;
-}
-public String getAddress() {
-    return this.address;
-}
-private String zipCode;
+    public void setPhoneNumber(String value) {
+        this.phoneNumber = value;
+    }
 
-public void setZipCode(String value) {
-    this.zipCode = value;
+    public String getPhoneNumber() {
+        return this.phoneNumber;
+    }
+
+    private Set<UserGroup> group1;
+
+    @OneToMany(mappedBy = "finalChoice")
+    public Set<UserGroup> getGroup1() {
+        return this.group1;
+    }
+
+    public void setGroup1(Set<UserGroup> group1s) {
+        this.group1 = group1s;
+    }
+
+    private String address;
+
+    public void setAddress(String value) {
+        this.address = value;
+    }
+
+    public String getAddress() {
+        return this.address;
+    }
+
+    private String zipCode;
+
+    public void setZipCode(String value) {
+        this.zipCode = value;
+    }
+
+    public String getZipCode() {
+        return this.zipCode;
+    }
+
+    private UserPreference restaurantPreferences;
+
+    @ManyToOne
+    public UserPreference getRestaurantPreferences() {
+        return this.restaurantPreferences;
+    }
+
+    public void setRestaurantPreferences(UserPreference restaurantPreferences) {
+        this.restaurantPreferences = restaurantPreferences;
+    }
+
+    private Set<UserGroup> group2;
+
+    @ManyToMany
+    public Set<UserGroup> getGroup2() {
+        return this.group2;
+    }
+
+    public void setGroup2(Set<UserGroup> group2s) {
+        this.group2 = group2s;
+    }
+
 }
-public String getZipCode() {
-    return this.zipCode;
-}
-   private UserPreference restaurantPreferences;
-   
-   @ManyToOne
-   public UserPreference getRestaurantPreferences() {
-      return this.restaurantPreferences;
-   }
-   
-   public void setRestaurantPreferences(UserPreference restaurantPreferences) {
-      this.restaurantPreferences = restaurantPreferences;
-   }
-   
-   private Set<UserGroup> group2;
-   
-   @ManyToMany
-   public Set<UserGroup> getGroup2() {
-      return this.group2;
-   }
-   
-   public void setGroup2(Set<UserGroup> group2s) {
-      this.group2 = group2s;
-   }
-   
-   }

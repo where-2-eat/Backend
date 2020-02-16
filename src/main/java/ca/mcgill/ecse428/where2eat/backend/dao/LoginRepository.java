@@ -4,10 +4,14 @@ import org.springframework.data.repository.CrudRepository;
 
 import ca.mcgill.ecse428.where2eat.backend.model.Login;
 
+import java.util.List;
+
 public interface LoginRepository extends CrudRepository<Login, String> {
-    Login findLoginByUserName(String userName);
+    Login findUserLoginByuserName(String username);
 
-    void deleteLoginByUserName(String userName);
+    void deleteUserLoginByuserName(String username);
 
-    boolean existsByUserName(String userName);
+    boolean existsByuserName(String username);
+
+    List<Login> findByuserName(String userName);
 }

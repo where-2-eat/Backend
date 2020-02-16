@@ -1,19 +1,20 @@
 package ca.mcgill.ecse428.where2eat.backend.service;
 
-import ca.mcgill.ecse428.where2eat.backend.dao.UserGroupRepository;
-import ca.mcgill.ecse428.where2eat.backend.dao.LoginRepository;
+import ca.mcgill.ecse428.where2eat.backend.dao.*;
 import ca.mcgill.ecse428.where2eat.backend.model.*;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
+
+import java.util.Dictionary;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
+import java.util.Map;
 
 @Service
 public class Where2EatService {
@@ -24,6 +25,9 @@ public class Where2EatService {
     UserGroupRepository userGroupRepository;
 
 
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Transactional
     public boolean login(String username, String password){
@@ -100,6 +104,26 @@ public class Where2EatService {
         userGroupRepository.save(usergroup);
         return usergroup;
     }
+    
+    public Login createLogin(String username, String password) {
+        String error = "";
+        if (username == null || username.trim().length() == 0) {
+            error += "Login userName cannot be empty!";
+        }
+        if (password == null || password.trim().length() == 0) {
+            error += "Login password cannot be empty!";
+        }
+        error = error.trim();
+        if (error.length() > 0) {
+            throw new IllegalArgumentException(error);
+        }
+        Login userLogin = loginRepository.findUserLoginByuserName(username);
+        if (userLogin == null) {
+            userLogin = new Login(username, password);
+            loginRepository.save(userLogin);
+        }
+        return userLogin;
+    }
 
     /**
      * Method to get an existing UserGroup with the groupName
@@ -110,7 +134,16 @@ public class Where2EatService {
     public UserGroup getUserGroup(String groupName){
     			
     	UserGroup userGroup= userGroupRepository.findUserGroupByGroupName(groupName);
-    	return userGroup;
+        return userGroup;
+    }
+
+    
+    public Login getLogin(String username) {
+        if (username == null || username.trim().length() == 0){
+            throw new IllegalArgumentException("Login username cannot be empty!");
+        }
+        Login login = loginRepository.findUserLoginByuserName(username);
+        return login;
     }
 
     /**
@@ -126,7 +159,12 @@ public class Where2EatService {
         userList.add(systemUser);
         Set userSet = new HashSet(userList);
         userGroup.setUser(userSet);
-    	userGroupRepository.save(userGroup);
+        userGroupRepository.save(userGroup);
+    }
+
+    public List<Login> getAllLogins() {
+        return StreamSupport.stream(loginRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
     }
 
     /**
@@ -184,4 +222,103 @@ public class Where2EatService {
 
 
 
+    public void deleteLogin(String username) {
+        if (username == null || username.trim().length() == 0){
+            throw new IllegalArgumentException("Login username cannot be empty!");
+        }
+        loginRepository.deleteUserLoginByuserName(username);
+    }
+
+    // ****************************************************************
+    // USER CRUD
+    /**
+     * Method used to create a user
+     * @param fName - User First name
+     * @param lName - User Last name
+     * @param userName - User Username
+     * @param password - User password
+     * @return
+     */
+    @Transactional
+	public SystemUser createUser(String fName, String lName, String userName, String password) {
+        if(loginRepository.existsByuserName(userName) && loginRepository.findByuserName(userName).size() != 0){
+            // Username already exists!
+            return null;
+        }
+        // Insert password rules and username rules here!
+        boolean isFNameValid = fName.trim().length() > 0;
+        boolean isLNameValid  = lName.trim().length() > 0;
+        boolean isUserNameValid =  userName.trim().length() > 0;
+        boolean isPasswordValid = password.trim().length() > 0;
+        boolean areFieldsValid =  isFNameValid && isLNameValid && isUserNameValid && isPasswordValid;
+        if(!areFieldsValid){
+            return null;
+        }
+
+        Login login = createLogin(userName, password);
+        loginRepository.save(login);
+        SystemUser newUser = new SystemUser(fName, lName, login);
+        userRepository.save(newUser);
+        return newUser;
+    }
+
+    @Transactional
+    public SystemUser getSystemUser(int id){
+        return userRepository.findUserByUserID(id);
+    }
+
+    @Transactional
+    public List<SystemUser> getSystemUserByFirstName(String fName){
+        return userRepository.findByFirstName(fName);
+    }
+
+    @Transactional
+    public List<SystemUser> getSystemUserByLastName(String lName){
+        return userRepository.findByLastName(lName);
+    }
+
+    @Transactional
+    public boolean deleteUserById(SystemUser user){
+        if(!userRepository.existsByUserID(user.getUserID())){
+            return false;
+        }
+        else {
+            userRepository.delete(user);
+        }
+        return true;
+    } 
+    
+    /**
+     * Method used to update user fields
+     * @param user - User to which modify fields
+     * @param fieldsToUpdate - Fields to update, as a KVP
+     * @return true if completed successfully, false otherwise
+     */
+    @Transactional
+    public boolean updateSystemUserFields(SystemUser user, Map<SystemUser.UserFields, String> fieldsToUpdate){
+        if(!userRepository.existsById(user.getUserID())){
+            return false;
+        }
+
+        // Iterate over fields to update in the user-
+        for(Map.Entry<SystemUser.UserFields, String> field : fieldsToUpdate.entrySet()){
+            SystemUser.UserFields key = field.getKey();
+            String value = field.getValue();
+            if(key.equals(SystemUser.UserFields.firstName)){
+                user.setFirstName(value);
+            } else if (key.equals(SystemUser.UserFields.lastName)){
+                user.setLastName(value);
+            } else if (key.equals(SystemUser.UserFields.userName)){
+                user.getLoginInformation().setUserName(value);
+            }  else if (key.equals(SystemUser.UserFields.password)){
+                user.getLoginInformation().setUserName(value);
+            } else {
+                // Cannot Modify any other names
+                return false;
+            }
+        }
+        userRepository.save(user);
+        return true;
+    }
+    // ****************************************************************
 }
