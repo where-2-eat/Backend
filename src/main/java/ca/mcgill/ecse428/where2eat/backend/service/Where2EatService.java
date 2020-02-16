@@ -104,7 +104,15 @@ public class Where2EatService {
         userGroupRepository.save(usergroup);
         return usergroup;
     }
-    
+
+
+    /**
+     * Method for creating Login
+     * @param username
+     * @param password
+     * @return
+     */
+    @Transactional
     public Login createLogin(String username, String password) {
         String error = "";
         if (username == null || username.trim().length() == 0) {
@@ -137,7 +145,12 @@ public class Where2EatService {
         return userGroup;
     }
 
-    
+    /**
+     *
+     * @param username
+     * @return
+     */
+    @Transactional
     public Login getLogin(String username) {
         if (username == null || username.trim().length() == 0){
             throw new IllegalArgumentException("Login username cannot be empty!");
