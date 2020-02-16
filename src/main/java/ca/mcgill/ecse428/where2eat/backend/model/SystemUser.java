@@ -6,10 +6,9 @@ import javax.persistence.OneToOne;
 import javax.persistence.Id;
 import java.util.Set;
 import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 @Entity
-public class User{
+public class SystemUser{
    private Login loginInformation;
    
    @OneToOne(cascade={CascadeType.ALL})
@@ -46,26 +45,26 @@ public void setUserID(Integer value) {
 public Integer getUserID() {
     return this.userID;
 }
-   private Set<Group> userGroups;
+   private Set<UserGroup> userGroups;
    
    @ManyToMany(mappedBy="user" )
-   public Set<Group> getUserGroups() {
+   public Set<UserGroup> getUserGroups() {
       return this.userGroups;
    }
    
-   public void setUserGroups(Set<Group> userGroupss) {
+   public void setUserGroups(Set<UserGroup> userGroupss) {
       this.userGroups = userGroupss;
    }
    
-   private Set<UserPreference> userPreferences;
+   private UserPreference userPreferences;
    
-   @OneToMany(cascade={CascadeType.ALL})
-   public Set<UserPreference> getUserPreferences() {
+   @OneToOne(cascade={CascadeType.ALL})
+   public UserPreference getUserPreferences() {
       return this.userPreferences;
    }
    
-   public void setUserPreferences(Set<UserPreference> userPreferencess) {
-      this.userPreferences = userPreferencess;
+   public void setUserPreferences(UserPreference userPreferences) {
+      this.userPreferences = userPreferences;
    }
    
    }

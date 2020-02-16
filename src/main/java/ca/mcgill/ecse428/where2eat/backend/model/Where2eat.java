@@ -1,42 +1,33 @@
 package ca.mcgill.ecse428.where2eat.backend.model;
-import javax.persistence.Id;
 
 import javax.persistence.Entity;
 import java.util.Set;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToMany;
+import javax.persistence.Id;
 
 @Entity
 public class Where2eat{
-private Integer projectID;
-
-public void setProjectID(Integer value) {
-this.projectID = value;
-}
-@Id
-public Integer getProjectID() {
-return this.projectID;
-}
-   private Set<User> users;
+   private Set<SystemUser> users;
    
    @OneToMany(cascade={CascadeType.ALL})
-   public Set<User> getUsers() {
+   public Set<SystemUser> getUsers() {
       return this.users;
    }
    
-   public void setUsers(Set<User> userss) {
+   public void setUsers(Set<SystemUser> userss) {
       this.users = userss;
    }
    
-   private Set<Group> group;
+   private Set<UserGroup> groups;
    
    @OneToMany(cascade={CascadeType.ALL})
-   public Set<Group> getGroup() {
-      return this.group;
+   public Set<UserGroup> getGroups() {
+      return this.groups;
    }
    
-   public void setGroup(Set<Group> groups) {
-      this.group = groups;
+   public void setGroups(Set<UserGroup> groupss) {
+      this.groups = groupss;
    }
    
    private Set<Restaurant> restaurants;
@@ -71,4 +62,14 @@ return this.projectID;
    public void setPreferences(Set<UserPreference> preferencess) {
       this.preferences = preferencess;
    }
+   
+   private Integer projectID;
+
+public void setProjectID(Integer value) {
+    this.projectID = value;
+}
+@Id
+public Integer getProjectID() {
+    return this.projectID;
+}
 }

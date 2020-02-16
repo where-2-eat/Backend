@@ -26,15 +26,15 @@ public void setResturantID(Integer value) {
 public Integer getResturantID() {
     return this.resturantID;
 }
-private Set<Group> group;
+private Set<UserGroup> group3;
 
 @ManyToMany
-public Set<Group> getGroup() {
-   return this.group;
+public Set<UserGroup> getGroup3() {
+   return this.group3;
 }
 
-public void setGroup(Set<Group> groups) {
-   this.group = groups;
+public void setGroup3(Set<UserGroup> group3s) {
+   this.group3 = group3s;
 }
 
 private Location restaurantLocation;
@@ -56,14 +56,14 @@ public void setPhoneNumber(String value) {
 public String getPhoneNumber() {
     return this.phoneNumber;
 }
-private Set<Group> group1;
+private Set<UserGroup> group1;
 
 @OneToMany(mappedBy="finalChoice" )
-public Set<Group> getGroup1() {
+public Set<UserGroup> getGroup1() {
    return this.group1;
 }
 
-public void setGroup1(Set<Group> group1s) {
+public void setGroup1(Set<UserGroup> group1s) {
    this.group1 = group1s;
 }
 
@@ -83,25 +83,25 @@ public void setZipCode(String value) {
 public String getZipCode() {
     return this.zipCode;
 }
-   private Set<UserPreference> restaurantPreferences;
+   private UserPreference restaurantPreferences;
    
-   @ManyToMany
-   public Set<UserPreference> getRestaurantPreferences() {
+   @ManyToOne
+   public UserPreference getRestaurantPreferences() {
       return this.restaurantPreferences;
    }
    
-   public void setRestaurantPreferences(Set<UserPreference> restaurantPreferencess) {
-      this.restaurantPreferences = restaurantPreferencess;
+   public void setRestaurantPreferences(UserPreference restaurantPreferences) {
+      this.restaurantPreferences = restaurantPreferences;
    }
    
-   private Set<Group> group2;
+   private Set<UserGroup> group2;
    
    @ManyToMany
-   public Set<Group> getGroup2() {
+   public Set<UserGroup> getGroup2() {
       return this.group2;
    }
    
-   public void setGroup2(Set<Group> group2s) {
+   public void setGroup2(Set<UserGroup> group2s) {
       this.group2 = group2s;
    }
    

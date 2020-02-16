@@ -7,7 +7,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 
 @Entity
-public class Group{
+public class UserGroup{
    private String groupName;
 
 public void setGroupName(String value) {
@@ -25,20 +25,20 @@ public void setGroupID(Integer value) {
 public Integer getGroupID() {
     return this.groupID;
 }
-   private Set<User> user;
+   private Set<SystemUser> user;
    
    @ManyToMany
-   public Set<User> getUser() {
+   public Set<SystemUser> getUser() {
       return this.user;
    }
    
-   public void setUser(Set<User> users) {
+   public void setUser(Set<SystemUser> users) {
       this.user = users;
    }
    
    private Set<Restaurant> suggestions;
    
-   @ManyToMany(mappedBy="group" )
+   @ManyToMany(mappedBy="group3" )
    public Set<Restaurant> getSuggestions() {
       return this.suggestions;
    }
