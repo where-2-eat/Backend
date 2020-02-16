@@ -7,7 +7,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.Id;
 
 @Entity
-public class Where2eat{
+public class Where2Eat{
    private Set<SystemUser> users;
    
    @OneToMany(cascade={CascadeType.ALL})
