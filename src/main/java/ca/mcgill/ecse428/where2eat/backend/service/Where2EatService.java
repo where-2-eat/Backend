@@ -9,7 +9,6 @@ import javax.transaction.Transactional;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-import java.util.Dictionary;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -27,7 +26,7 @@ public class Where2EatService {
 
 
     @Autowired
-    private UserRepository userRepository;
+    private UserSystemRepository userSystemRepository;
 
     @Transactional
     public boolean login(String username, String password){
@@ -271,32 +270,32 @@ public class Where2EatService {
         Login login = createLogin(userName, password);
         loginRepository.save(login);
         SystemUser newUser = new SystemUser(fName, lName, login);
-        userRepository.save(newUser);
+        userSystemRepository.save(newUser);
         return newUser;
     }
 
     @Transactional
     public SystemUser getSystemUser(int id){
-        return userRepository.findUserByUserID(id);
+        return userSystemRepository.findUserByUserID(id);
     }
 
     @Transactional
     public List<SystemUser> getSystemUserByFirstName(String fName){
-        return userRepository.findByFirstName(fName);
+        return userSystemRepository.findByFirstName(fName);
     }
 
     @Transactional
     public List<SystemUser> getSystemUserByLastName(String lName){
-        return userRepository.findByLastName(lName);
+        return userSystemRepository.findByLastName(lName);
     }
 
     @Transactional
     public boolean deleteUserById(SystemUser user){
-        if(!userRepository.existsByUserID(user.getUserID())){
+        if(!userSystemRepository.existsByUserID(user.getUserID())){
             return false;
         }
         else {
-            userRepository.delete(user);
+            userSystemRepository.delete(user);
         }
         return true;
     } 
@@ -309,7 +308,7 @@ public class Where2EatService {
      */
     @Transactional
     public boolean updateSystemUserFields(SystemUser user, Map<SystemUser.UserFields, String> fieldsToUpdate){
-        if(!userRepository.existsById(user.getUserID())){
+        if(!userSystemRepository.existsById(user.getUserID())){
             return false;
         }
 
@@ -330,7 +329,7 @@ public class Where2EatService {
                 return false;
             }
         }
-        userRepository.save(user);
+        userSystemRepository.save(user);
         return true;
     }
     // ****************************************************************
