@@ -13,17 +13,9 @@ public class UserGroup{
 public void setGroupName(String value) {
     this.groupName = value;
 }
+@Id
 public String getGroupName() {
     return this.groupName;
-}
-private Integer groupID;
-
-public void setGroupID(Integer value) {
-    this.groupID = value;
-}
-@Id
-public Integer getGroupID() {
-    return this.groupID;
 }
    private Set<SystemUser> user;
    
