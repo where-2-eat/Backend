@@ -79,4 +79,15 @@ public Integer getUserID() {
       this.userGroup = userGroups;
    }
    
+   private Location userLocation;
+   
+   @OneToOne(mappedBy="systemUser" )
+   public Location getUserLocation() {
+      return this.userLocation;
+   }
+   
+   public void setUserLocation(Location userLocation) {
+      this.userLocation = userLocation;
+   }
+   
    }

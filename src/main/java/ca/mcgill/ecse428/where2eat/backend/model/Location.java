@@ -2,6 +2,7 @@ package ca.mcgill.ecse428.where2eat.backend.model;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Location{
@@ -30,4 +31,15 @@ public void setLocationID(Integer value) {
 public Integer getLocationID() {
     return this.locationID;
 }
-}
+   private SystemUser systemUser;
+   
+   @OneToOne
+   public SystemUser getSystemUser() {
+      return this.systemUser;
+   }
+   
+   public void setSystemUser(SystemUser systemUser) {
+      this.systemUser = systemUser;
+   }
+   
+   }
