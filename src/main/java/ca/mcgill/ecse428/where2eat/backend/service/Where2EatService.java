@@ -27,8 +27,10 @@ public class Where2EatService {
 
 	@Autowired
 	private LoginRepository loginRepository;
+
 	@Autowired
 	UserGroupRepository userGroupRepository;
+
 	@Autowired
 	private AuthenticationManager authenticationManager;
 
@@ -87,26 +89,6 @@ public class Where2EatService {
 	// ==========================================================================================
 	// UserGroup CRUD operations
 	// ==========================================================================================
-
-	/**
-	 * Method for creating a UserGroup from a single user, the admin.
-	 * Note that the admin has no specific role compared to a regular user
-	 *
-	 * @param admin
-	 * @return userGroup
-	 */
-	@Transactional
-	public UserGroup createUserGroup(SystemUser admin, String groupName){
-
-		UserGroup usergroup = new UserGroup();
-		usergroup.setGroupName(groupName);
-		List<SystemUser> userList = new ArrayList<SystemUser>();
-		userList.add(admin);
-		Set set = new HashSet(userList);
-		usergroup.setUser(set);
-		userGroupRepository.save(usergroup);
-		return usergroup;
-	}
 
 	/**
 	 * login method with authentication
@@ -179,60 +161,11 @@ public class Where2EatService {
 		return login;
 	}
 
-	/**
-	 * Method for adding a user to an existing UserGroup
-	 * @param systemUser, groupName
-	 * @return Void
-	 */
-	@Transactional
-	public void addSystemUserToUserGroup(SystemUser systemUser, String groupName){
-
-		UserGroup userGroup= userGroupRepository.findUserGroupByGroupName(groupName);
-		List<SystemUser> userList = (List<SystemUser>) userGroup.getUser();
-		userList.add(systemUser);
-		Set userSet = new HashSet(userList);
-		userGroup.setUser(userSet);
-		userGroupRepository.save(userGroup);
-	}
 
 	public List<Login> getAllLogins() {
 		return StreamSupport.stream(loginRepository.findAll().spliterator(), false)
 				.collect(Collectors.toList());
 	}
-
-	/**
-	 * Method for deleting an existing UserGroup
-	 * @param groupName
-	 * @return void
-	 */
-	@Transactional
-	public void deleteUserGroup(String groupName){
-		userGroupRepository.deleteUserGroupByGroupName(groupName);
-	}
-
-	// ==========================================================================================
-	// Service methods for Location
-	// ==========================================================================================
-
-	// ==========================================================================================
-
-
-
-	/**
-	 * Returns objects in an iterable list.
-	 *
-	 * @param iterable - Must be a list of iterable objects
-	 * @return List of objects in iterable set.
-	 */
-	private <T> List<T> toList(Iterable<T> iterable) {
-		List<T> resultList = new ArrayList<T>();
-		for (T t : iterable) {
-			resultList.add(t);
-		}
-		return resultList;
-	}
-
-	// ==========================================================================================
 
 
 
@@ -388,6 +321,23 @@ public class Where2EatService {
     // Service methods for Location
     // ==========================================================================================
 
+	/**
+	 * Method for adding a location object to a System User
+	 * @param userId
+	 * @param longitude
+	 * @param latitude
+	 */
+	@Transactional
+	public void addLocationToSystemUser(Integer userId, String longitude, String latitude) {
+		SystemUser systemUser = userSystemRepository.findUserByUserID(userId);
+		// convert longitude and latitude to location object
+		Location userLocation = new Location();
+
+		userLocation.setLongitude(longitude);
+		userLocation.setLatitude(latitude);
+		systemUser.setUserLocation(userLocation);
+		userSystemRepository.save(systemUser);
+	}
     /**
      * Method for adding a location object to a UserGroup
      * @param userGroupName
@@ -410,6 +360,16 @@ public class Where2EatService {
         // else throw some error maybe
     }
 
+	/**
+	 * Method for deleting an existing UserGroup
+	 * @param groupName
+	 * @return void
+	 */
+	@Transactional
+	public void deleteUserGroup(String groupName){
+		userGroupRepository.deleteUserGroupByGroupName(groupName);
+	}
+
     /**
      * Method for getting a location from group
      */
@@ -418,6 +378,16 @@ public class Where2EatService {
         UserGroup userGroup = userGroupRepository.findUserGroupByGroupName(userGroupName);
         return userGroup.getGroupLocation();
     }
+
+	/**
+	 * Method for getting a location from group
+	 */
+	@Transactional
+	public Location getLocationFromSystemUser(Integer userId) {
+		SystemUser systemUser = userSystemRepository.findUserByUserID(userId);
+		return systemUser.getUserLocation();
+	}
+
 
 //    /**
 //     * Method for adding a location

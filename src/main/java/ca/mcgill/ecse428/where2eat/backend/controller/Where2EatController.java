@@ -61,12 +61,31 @@ public class Where2EatController {
     }
 
     /**
+     * Restful endpoint to add location to system user
+     */
+    @PostMapping(value = {"/setLocation/{userId}/{longitude}/{latitude}/", "/setLocation/{userId}/{longitude}/{latitude}"})
+    public void addLocationToSystemUser(@PathVariable("userId") Integer userId, @PathVariable("longitude") String longitude, @PathVariable("latitude") String latitude) {
+        service.addLocationToSystemUser(userId, longitude, latitude);
+    }
+
+    /**
+     * Restful endpoint to get location from system user
+     */
+    @GetMapping(value = {"/getLocation/{userId}/", "/getLocation/{userId}"})
+    public void getLocationFromSystemUser(@PathVariable("userId") Integer userId) {
+        service.getLocationFromSystemUser(userId);
+    }
+
+
+    /**
      * Restful endpoint to get location from user group
      */
     @GetMapping(value = {"/getLocation/{groupName}/", "/getLocation/{groupName}"})
     public void getLocationFromUserGroup(@PathVariable("groupName") String groupName) {
         service.getLocationFromGroup(groupName);
     }
+
+
 
 
 }

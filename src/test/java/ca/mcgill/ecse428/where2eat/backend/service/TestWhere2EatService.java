@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class TestEventRegistrationService {
+public class TestWhere2EatService {
     @Autowired
     Where2EatService service;
     @Autowired
@@ -33,7 +33,6 @@ class TestEventRegistrationService {
         // Then we can clear the other tables
         userGroupRepository.deleteAll();
         userSystemRepository.deleteAll();
-
     }
 
     @Test
