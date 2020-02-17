@@ -43,8 +43,8 @@ public class Where2EatController {
      * @return
      */
     @RequestMapping(value = {"/register/", "/register"})
-    public SystemUser registerUser(@RequestParam String fName, @RequestParam String lName, @RequestParam String userName, @RequestParam String password){
-        return service.createUser(fName, lName, userName, password);
+    public SystemUser registerUser(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String userName, @RequestParam String password){
+        return service.createUser(firstName, lastName, userName, password);
     }
 
 }

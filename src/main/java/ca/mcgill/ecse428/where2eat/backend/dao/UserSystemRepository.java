@@ -12,4 +12,5 @@ public interface UserSystemRepository extends CrudRepository<SystemUser, Integer
     List<SystemUser> findByFirstName(String firstName);
 
     List<SystemUser> findByLastName(String lastName);
+
 }

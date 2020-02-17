@@ -1,6 +1,7 @@
 package ca.mcgill.ecse428.where2eat.backend.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.persistence.GeneratedValue;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToOne;
 import javax.persistence.Id;
@@ -43,6 +44,7 @@ public void setUserID(Integer value) {
     this.userID = value;
 }
 @Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 public Integer getUserID() {
     return this.userID;
 }

@@ -21,9 +21,7 @@ public class Where2EatService {
     @Autowired
     private LoginRepository loginRepository;
     @Autowired
-    UserGroupRepository userGroupRepository;
-
-
+    private UserGroupRepository userGroupRepository;
 
     @Autowired
     private UserSystemRepository userSystemRepository;
@@ -129,7 +127,7 @@ public class Where2EatService {
             userLogin = new Login();
             userLogin.setPassword(password);
             userLogin.setUserName(username);
-            loginRepository.save(userLogin);
+            //loginRepository.save(userLogin);
         }
         return userLogin;
     }
@@ -245,7 +243,7 @@ public class Where2EatService {
 
     // ****************************************************************
     // USER CRUD
-    public enum UserFields{
+    public static enum UserFields{
         firstName,
         lastName,
         userName,
@@ -253,33 +251,37 @@ public class Where2EatService {
     }
     /**
      * Method used to create a user
-     * @param fName - User First name
-     * @param lName - User Last name
+     * @param firstName - User First name
+     * @param lastName - User Last name
      * @param userName - User Username
      * @param password - User password
      * @return
      */
     @Transactional
-	public SystemUser createUser(String fName, String lName, String userName, String password) {
-        if(loginRepository.existsByuserName(userName) && loginRepository.findByuserName(userName).size() != 0){
+	public SystemUser createUser(String firstName, String lastName, String userName, String password) {
+        if(loginRepository.existsByuserName(userName)){
             // Username already exists!
-            return null;
+            throw new IllegalArgumentException("User with this username already exists within this database!");
         }
+        firstName = firstName.trim();
+        lastName = lastName.trim();
+        userName = userName.trim();
+        password = password.trim();
+
         // Insert password rules and username rules here!
-        boolean isFNameValid = fName.trim().length() > 0;
-        boolean isLNameValid  = lName.trim().length() > 0;
-        boolean isUserNameValid =  userName.trim().length() > 0;
-        boolean isPasswordValid = password.trim().length() > 0;
+        boolean isFNameValid = firstName.length() > 0;
+        boolean isLNameValid  = lastName.length() > 0;
+        boolean isUserNameValid =  userName.length() > 0;
+        boolean isPasswordValid = password.length() > 0;
         boolean areFieldsValid =  isFNameValid && isLNameValid && isUserNameValid && isPasswordValid;
         if(!areFieldsValid){
             return null;
         }
 
         Login login = createLogin(userName, password);
-        loginRepository.save(login);
         SystemUser newUser = new SystemUser();
-        newUser.setFirstName(fName);
-        newUser.setLastName(lName);
+        newUser.setFirstName(firstName);
+        newUser.setLastName(lastName);
         newUser.setLoginInformation(login);
         userSystemRepository.save(newUser);
         return newUser;
@@ -301,7 +303,18 @@ public class Where2EatService {
     }
 
     @Transactional
-    public boolean deleteUserById(SystemUser user){
+    public SystemUser getSystemUserByUserName(String userName){
+        Iterable<SystemUser> users = userSystemRepository.findAll();
+        for(SystemUser user : users){
+            if(user.getLoginInformation().getUserName().equals(userName)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public boolean deleteUser(SystemUser user){
         if(!userSystemRepository.existsByUserID(user.getUserID())){
             return false;
         }
