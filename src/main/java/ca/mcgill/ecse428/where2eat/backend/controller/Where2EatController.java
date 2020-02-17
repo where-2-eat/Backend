@@ -1,14 +1,14 @@
 package ca.mcgill.ecse428.where2eat.backend.controller;
 
 
+import ca.mcgill.ecse428.where2eat.backend.model.Location;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.CrossOrigin;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import ca.mcgill.ecse428.where2eat.backend.service.*;
 import ca.mcgill.ecse428.where2eat.backend.model.*;
+
+import java.util.List;
 
 /**
  * Main controller class. Provides the REST API mappings
@@ -51,5 +51,22 @@ public class Where2EatController {
     public SystemUser registerUser(@RequestParam String fName, @RequestParam String lName, @RequestParam String userName, @RequestParam String password){
         return service.createUser(fName, lName, userName, password);
     }
+
+    /**
+     * Restful endpoint to add location to user group
+     */
+    @PostMapping(value = {"/setLocation/{groupName}/{longitude}/{latitude}/", "/setLocation/{groupName}/{longitude}/{latitude}"})
+    public void addLocationToUserGroup(@PathVariable("groupName") String groupName, @PathVariable("longitude") String longitude, @PathVariable("latitude") String latitude) {
+        service.addLocationToUserGroup(groupName, longitude, latitude);
+    }
+
+    /**
+     * Restful endpoint to get location from user group
+     */
+    @GetMapping(value = {"/getLocation/{groupName}/", "/getLocation/{groupName}"})
+    public void getLocationFromUserGroup(@PathVariable("groupName") String groupName) {
+        service.getLocationFromGroup(groupName);
+    }
+
 
 }
