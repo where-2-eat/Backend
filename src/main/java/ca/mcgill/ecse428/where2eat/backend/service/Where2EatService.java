@@ -126,7 +126,9 @@ public class Where2EatService {
         }
         Login userLogin = loginRepository.findUserLoginByuserName(username);
         if (userLogin == null) {
-            userLogin = new Login(username, password);
+            userLogin = new Login();
+            userLogin.setPassword(password);
+            userLogin.setUserName(username);
             loginRepository.save(userLogin);
         }
         return userLogin;
@@ -243,6 +245,12 @@ public class Where2EatService {
 
     // ****************************************************************
     // USER CRUD
+    public enum UserFields{
+        firstName,
+        lastName,
+        userName,
+        password
+    }
     /**
      * Method used to create a user
      * @param fName - User First name
@@ -269,7 +277,10 @@ public class Where2EatService {
 
         Login login = createLogin(userName, password);
         loginRepository.save(login);
-        SystemUser newUser = new SystemUser(fName, lName, login);
+        SystemUser newUser = new SystemUser();
+        newUser.setFirstName(fName);
+        newUser.setLastName(lName);
+        newUser.setLoginInformation(login);
         userSystemRepository.save(newUser);
         return newUser;
     }
@@ -307,22 +318,22 @@ public class Where2EatService {
      * @return true if completed successfully, false otherwise
      */
     @Transactional
-    public boolean updateSystemUserFields(SystemUser user, Map<SystemUser.UserFields, String> fieldsToUpdate){
+    public boolean updateSystemUserFields(SystemUser user, Map<UserFields, String> fieldsToUpdate){
         if(!userSystemRepository.existsById(user.getUserID())){
             return false;
         }
 
         // Iterate over fields to update in the user-
-        for(Map.Entry<SystemUser.UserFields, String> field : fieldsToUpdate.entrySet()){
-            SystemUser.UserFields key = field.getKey();
+        for(Map.Entry<UserFields, String> field : fieldsToUpdate.entrySet()){
+            UserFields key = field.getKey();
             String value = field.getValue();
-            if(key.equals(SystemUser.UserFields.firstName)){
+            if(key.equals(UserFields.firstName)){
                 user.setFirstName(value);
-            } else if (key.equals(SystemUser.UserFields.lastName)){
+            } else if (key.equals(UserFields.lastName)){
                 user.setLastName(value);
-            } else if (key.equals(SystemUser.UserFields.userName)){
+            } else if (key.equals(UserFields.userName)){
                 user.getLoginInformation().setUserName(value);
-            }  else if (key.equals(SystemUser.UserFields.password)){
+            }  else if (key.equals(UserFields.password)){
                 user.getLoginInformation().setUserName(value);
             } else {
                 // Cannot Modify any other names
