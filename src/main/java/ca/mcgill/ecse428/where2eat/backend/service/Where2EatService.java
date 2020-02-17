@@ -1,9 +1,16 @@
 package ca.mcgill.ecse428.where2eat.backend.service;
 
 import ca.mcgill.ecse428.where2eat.backend.dao.*;
+import ca.mcgill.ecse428.where2eat.backend.exception.CustomException;
 import ca.mcgill.ecse428.where2eat.backend.model.*;
+import ca.mcgill.ecse428.where2eat.backend.security.JwtTokenProvider;
+
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.AuthenticationException;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
@@ -17,26 +24,19 @@ import java.util.Map;
 
 @Service
 public class Where2EatService {
-
     @Autowired
     private LoginRepository loginRepository;
     @Autowired
     private UserGroupRepository userGroupRepository;
 
+	@Autowired
+	private AuthenticationManager authenticationManager;
+
+	@Autowired
+	private JwtTokenProvider jwtTokenProvider;
+
     @Autowired
     private UserSystemRepository userSystemRepository;
-
-    @Transactional
-    public boolean login(String userName, String password){
-        SystemUser user = getSystemUserByUserName(userName);
-        if(user == null){
-            throw new IllegalArgumentException("Specified Username does not exist");
-        }
-        if(user.getLoginInformation().getPassword().equals(password)){
-            return true;
-        }
-        return false;
-    }
 
 
     // ==========================================================================================
@@ -92,6 +92,34 @@ public class Where2EatService {
         }
         return userLogin;
     }
+
+	/**
+	 * login method with authentication
+	 * @param username
+	 * @param password
+	 * @return JSON Web token for the login session
+	 */
+	@Transactional
+	public String login(String username, String password) {
+		String error = "";
+		if (username == null || username.trim().length() == 0) {
+			error += "Login userName cannot be empty!";
+		}
+		if (password == null || password.trim().length() == 0) {
+			error += "Login password cannot be empty!";
+		}
+		error = error.trim();
+		if (error.length() > 0) {
+			throw new IllegalArgumentException(error);
+		}
+
+		try {
+			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+			return jwtTokenProvider.createToken(username);		// token is being made using login
+		} catch (AuthenticationException e) {
+			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+		}
+	}
 
     /**
      * Method to get an existing UserGroup with the groupName
@@ -351,4 +379,5 @@ public class Where2EatService {
         return true;
     }
     // ****************************************************************
+
 }
