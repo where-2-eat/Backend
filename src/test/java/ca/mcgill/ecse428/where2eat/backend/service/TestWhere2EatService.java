@@ -16,7 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-class TestEventRegistrationService {
+class TestWhere2EatService {
     @Autowired
     Where2EatService service;
     @Autowired
