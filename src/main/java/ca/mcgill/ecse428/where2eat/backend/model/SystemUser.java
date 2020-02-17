@@ -1,11 +1,13 @@
 package ca.mcgill.ecse428.where2eat.backend.model;
 
-import javax.persistence.Entity;
+import javax.persistence.*;
+import javax.persistence.GeneratedValue;
 import javax.persistence.CascadeType;
 import javax.persistence.OneToOne;
 import javax.persistence.Id;
 import java.util.Set;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 
 @Entity
 public class SystemUser{
@@ -42,6 +44,7 @@ public void setUserID(Integer value) {
     this.userID = value;
 }
 @Id
+@GeneratedValue(strategy = GenerationType.IDENTITY)
 public Integer getUserID() {
     return this.userID;
 }
@@ -65,6 +68,28 @@ public Integer getUserID() {
    
    public void setUserPreferences(UserPreference userPreferences) {
       this.userPreferences = userPreferences;
+   }
+   
+   private Set<UserGroup> userGroup;
+   
+   @OneToMany(mappedBy="admin" )
+   public Set<UserGroup> getUserGroup() {
+      return this.userGroup;
+   }
+   
+   public void setUserGroup(Set<UserGroup> userGroups) {
+      this.userGroup = userGroups;
+   }
+   
+   private Location userLocation;
+   
+   @OneToOne(mappedBy="systemUser" )
+   public Location getUserLocation() {
+      return this.userLocation;
+   }
+   
+   public void setUserLocation(Location userLocation) {
+      this.userLocation = userLocation;
    }
    
    }
