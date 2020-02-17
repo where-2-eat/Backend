@@ -292,6 +292,16 @@ public class Where2EatService {
         return null;
     }
 
+    @Transactional
+    public List<SystemUser> getAllSystemUsers(){
+        Iterable<SystemUser> usersIterable = userSystemRepository.findAll();
+        List<SystemUser> userList = new ArrayList<SystemUser>();
+        for(SystemUser user: usersIterable){
+            userList.add(user);
+        }
+        return userList;
+    }
+
     /**
      * Method used to delete specified user.
      * @param user - User to delete
@@ -331,7 +341,7 @@ public class Where2EatService {
             } else if (key.equals(UserFields.userName)){
                 user.getLoginInformation().setUserName(value);
             }  else if (key.equals(UserFields.password)){
-                user.getLoginInformation().setUserName(value);
+                user.getLoginInformation().setPassword(value);
             } else {
                 // Cannot Modify any other names
                 return false;

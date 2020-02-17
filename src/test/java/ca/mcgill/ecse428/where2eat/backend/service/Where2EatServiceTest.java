@@ -36,8 +36,17 @@ public class Where2EatServiceTest {
     private final String FNAME = "John";
     private final String LNAME = "Doe";
     private final String USERNAME = "xx_JohnDoe_xx";
-    private final String NEW_USERNAME = "XxX_JohnDoe_XxX";
     private final String PASSWORD = "1234";
+
+    private final String NEW_FNAME = "Johnny";
+    private final String NEW_LNAME = "Doo";
+    private final String NEW_USERNAME = "XxX_JohnDoe_XxX";
+    private final String NEW_PASSWORD = "abcd";
+
+    private final String FNAME2 = "Post";
+    private final String LNAME2 = "Malone";
+    private final String USERNAME2 = "Beebongs";
+    private final String PASSWORD2 = "Bentleys";
     
     
     @After
@@ -78,12 +87,18 @@ public class Where2EatServiceTest {
         int originalId = user.getUserID();
         assertEquals(user.getLoginInformation().getUserName(), USERNAME);
         HashMap<Where2EatService.UserFields, String> fieldsToUpdate = new HashMap<Where2EatService.UserFields, String>();
+        fieldsToUpdate.put(Where2EatService.UserFields.firstName, NEW_FNAME);
+        fieldsToUpdate.put(Where2EatService.UserFields.lastName, NEW_LNAME);
         fieldsToUpdate.put(Where2EatService.UserFields.userName, NEW_USERNAME);
+        fieldsToUpdate.put(Where2EatService.UserFields.password, NEW_PASSWORD);
         service.updateSystemUserFields(user, fieldsToUpdate);
 
-        user = userSystemRepository.findByFirstName(FNAME).get(0);
+        user = service.getSystemUser(originalId);
+        assertEquals(user.getFirstName(), NEW_FNAME);
+        assertEquals(user.getLastName(), NEW_LNAME);
         assertEquals(user.getLoginInformation().getUserName(), NEW_USERNAME);
-        assertEquals(user.getUserID(), originalId);
+        assertEquals(user.getLoginInformation().getPassword(), NEW_PASSWORD);
+        
     }
 
     @Test
@@ -104,6 +119,15 @@ public class Where2EatServiceTest {
         SystemUser user = service.getSystemUserByUserName(USERNAME);
         assertNotEquals(user, null);
         assertEquals(user.getLoginInformation().getUserName(), USERNAME);
+    }
+
+    @Test
+    public void getAllSystemUsersTest(){
+        service.createUser(FNAME, LNAME, USERNAME, PASSWORD);
+        service.createUser(FNAME2, LNAME2, USERNAME2, PASSWORD2);
+
+        List<SystemUser> users = service.getAllSystemUsers();
+        assertEquals(users.size(), 2);
     }
 
 

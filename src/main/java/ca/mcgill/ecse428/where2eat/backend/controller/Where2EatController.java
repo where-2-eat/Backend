@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import ca.mcgill.ecse428.where2eat.backend.service.*;
 import ca.mcgill.ecse428.where2eat.backend.model.*;
+import java.util.*;
 
 /**
  * Main controller class. Provides the REST API mappings
@@ -45,6 +46,17 @@ public class Where2EatController {
     @RequestMapping(value = {"/register/", "/register"})
     public SystemUser registerUser(@RequestParam String firstName, @RequestParam String lastName, @RequestParam String userName, @RequestParam String password){
         return service.createUser(firstName, lastName, userName, password);
+    }
+
+    /**
+     * Restful endpoint to allow request of all system users
+     *
+     * @author Tristan Bouchard
+     * @return
+     */
+    @RequestMapping(value = {"/allUsers/", "/allUsers"})
+    public List<SystemUser> getAllSystemUsers(){
+        return service.getAllSystemUsers();
     }
 
 }
