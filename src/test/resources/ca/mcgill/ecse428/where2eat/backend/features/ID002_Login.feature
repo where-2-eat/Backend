@@ -18,7 +18,7 @@ Feature: Login
 
 	Scenario Outline: Unsuccessful Login (Error flow)
 		When The user "<full_name>" logs in with username "<_username>" and password "<_password>"
-		Then An error message saying "Wrong username or password, please try again." is displayed
+		Then An error message informing user of incorrect credentials is returned
 		Examples:
 		|full_name    |_username     |_password    |
 		|Steve Jobs   |stev9         |iphoneX89    |

@@ -16,18 +16,20 @@ dependencies {
 
 
 	//cucumber stuff
-	testImplementation "io.cucumber:cucumber-java:4.7.2"
-    testImplementation "io.cucumber:cucumber-junit:4.7.2"
 	testImplementation "org.junit.jupiter:junit-jupiter-api:5.5.0"
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.5.0"
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.5.0"
+	testCompile "info.cukes:cucumber-spring:1.2.4"
+	testCompile "info.cukes:cucumber-junit:1.2.4"
+	testCompile "info.cukes:cucumber-java:1.2.4"
+	testCompile "info.cukes:cucumber-core:1.2.4"
 
 	testCompile 'junit:junit:4.12'
 	compile 'junit:junit:4.12'
 	compile 'org.springframework.security:spring-security-core:5.2.1.RELEASE'
 	compile 'org.springframework.security:spring-security-config:5.2.1.RELEASE'
 	compile 'org.springframework.security:spring-security-web:5.2.1.RELEASE'
-	
+
 	compile 'io.jsonwebtoken:jjwt:0.9.1'
 
 	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
@@ -36,6 +38,7 @@ dependencies {
 	testImplementation('org.springframework.boot:spring-boot-starter-test') {
 		exclude group: 'org.junit.vintage', module: 'junit-vintage-engine'
 	}
+
 
 }
 

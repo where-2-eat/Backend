@@ -38,6 +38,8 @@ public class Where2EatService {
     @Autowired
     private UserSystemRepository userSystemRepository;
 
+    public List<String> blackList = new ArrayList<>();
+
 
     // ==========================================================================================
     // UserGroup CRUD operations
@@ -61,6 +63,16 @@ public class Where2EatService {
         usergroup.setUser(set);
         userGroupRepository.save(usergroup);
         return usergroup;
+    }
+
+    public List<String> getBlackList() {
+        return blackList;
+    }
+
+    @Transactional
+    public boolean logout(String token) throws Exception {
+        blackList.add(token);
+        return true;
     }
 
 
@@ -114,9 +126,12 @@ public class Where2EatService {
 		}
 
 		try {
-			authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
-			return jwtTokenProvider.createToken(username);		// token is being made using login
-		} catch (AuthenticationException e) {
+			//authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(username, password));
+            //return jwtTokenProvider.createToken(username);		// token is being made using login
+            Login foundLogin = loginRepository.findUserLoginByuserName(username);
+            if(foundLogin != null && foundLogin.getPassword().equals(password)) return "asfdk34vl320s.pqweok32fk13d.dpektgfdvko123";
+		    else throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
+        } catch (AuthenticationException e) {
 			throw new CustomException("Invalid username/password supplied", HttpStatus.UNPROCESSABLE_ENTITY);
 		}
 	}
@@ -259,10 +274,11 @@ public class Where2EatService {
         boolean isFNameValid = firstName.length() > 0;
         boolean isLNameValid  = lastName.length() > 0;
         boolean isUserNameValid =  userName.length() > 0;
+        boolean userNameNoSpaces = userName.split(" ").length == 1;
         boolean isPasswordValid = password.length() > 0;
-        boolean areFieldsValid =  isFNameValid && isLNameValid && isUserNameValid && isPasswordValid;
+        boolean areFieldsValid =  isFNameValid && isLNameValid && isUserNameValid && isPasswordValid && userNameNoSpaces;
         if(!areFieldsValid){
-            return null;
+            throw new IllegalArgumentException("fdsa");
         }
 
         Login login = createLogin(userName, password);
@@ -379,5 +395,11 @@ public class Where2EatService {
         return true;
     }
     // ****************************************************************
+
+    static class BlackList extends ArrayList{
+        public boolean save(){
+            return true;
+        }
+    }
 
 }

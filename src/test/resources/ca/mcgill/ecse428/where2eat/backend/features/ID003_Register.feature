@@ -12,13 +12,13 @@ Feature: Register
 
 
 	Scenario Outline: The username provided already exists (Error flow)
-		Given The following users already exist:
+		Given The following users are already registered
 		|full_name    |_username     |_password    |
 		|Steve Jobs   |steve99       |iphoneX89    |
 		|John Doe     |johnDoe02     |abcd123      |
 
 		When A user named "<full_name>" creates an account with password "<_password>" and username "<_username>"
-		Then An error message saying "This username already exists" is displayed
+		Then An error message informing user of pre-existing user is displayed
 		Examples:
 		|full_name    |_username     |_password    |
 		|Steve Smith  |steve99       |iphone1234   |
@@ -26,7 +26,7 @@ Feature: Register
 
 	Scenario Outline: Invalid username or password (Error flow) 
 		When A user named "<full_name>" creates an account with password "<_password>" and username "<_username>"
-		Then An error message saying "Invalid username or password" is displayed
+		Then An error message informing user of incorrect information is returned
 		Examples:
 		|full_name    |_username     |_password    |
 		|Steve Jobs   |steve99       |             |
