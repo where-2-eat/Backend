@@ -27,55 +27,16 @@ public class Where2EatService {
     private UserSystemRepository userSystemRepository;
 
     @Transactional
-    public boolean login(String username, String password){
-        // TODO: Implement this method
+    public boolean login(String userName, String password){
+        SystemUser user = getSystemUserByUserName(userName);
+        if(user == null){
+            throw new IllegalArgumentException("Specified Username does not exist");
+        }
+        if(user.getLoginInformation().getPassword().equals(password)){
+            return true;
+        }
         return false;
     }
-
-
-//    @Transactional
-//    public Login createLogin(String username, String password, Where2Eat w) {
-//        String error = "";
-//        if (username == null || username.trim().length() == 0) {
-//            error += "Login userName cannot be empty!";
-//        }
-//        if (password == null || password.trim().length() == 0) {
-//            error += "Login password cannot be empty!";
-//        }
-//        error = error.trim();
-//        if (error.length() > 0) {
-//            throw new IllegalArgumentException(error);
-//        }
-//        Login userLogin = userLoginRepository.findUserLoginByUsername(username);
-//        if (userLogin == null) {
-//           // userLogin = new Login(username,password);
-//            userLoginRepository.save(userLogin);
-//        }
-//        return userLogin;
-//    }
-//
-//    @Transactional
-//    public Login getLogin(String username) {
-//        if (username == null || username.trim().length() == 0){
-//            throw new IllegalArgumentException("Login username cannot be empty!");
-//        }
-//        Login login = LoginRepository.findLoginByUserName(username);
-//        return login;
-//    }
-
-//    @Transactional
-//    public List<Login> getAllLogins() {
-//        return StreamSupport.stream(LoginRepository.findAll().spliterator(), false)
-//                .collect(Collectors.toList());
-//    }
-
-//    @Transactional
-//    public void deleteLogin(String username) {
-//        if (username == null || username.trim().length() == 0){
-//            throw new IllegalArgumentException("Login username cannot be empty!");
-//        }
-//        userLoginRepository.deleteUserLoginByUsername(username);
-//    }
 
 
     // ==========================================================================================
@@ -201,15 +162,8 @@ public class Where2EatService {
      */
     @Transactional
     public void addLocationToUserGroup(String userGroupName, String longitude, String latitude) {
-    	
-    	
-    	
+ 
     }
-    
-    
-    
-    
-    
     
     // ==========================================================================================
 
@@ -243,12 +197,17 @@ public class Where2EatService {
 
     // ****************************************************************
     // USER CRUD
+
+    /**
+     * Enumeration to be used when modifying user fields
+     */
     public static enum UserFields{
         firstName,
         lastName,
         userName,
         password
     }
+
     /**
      * Method used to create a user
      * @param firstName - User First name
@@ -287,21 +246,41 @@ public class Where2EatService {
         return newUser;
     }
 
+    /**
+     * Method used to get SystemUser by specified ID
+     * @param id - UserID
+     * @return user if found, null otherwise
+     */
     @Transactional
     public SystemUser getSystemUser(int id){
         return userSystemRepository.findUserByUserID(id);
     }
 
+    /**
+     * Method used to get System user list with specified firstName
+     * @param firstName - Specified first name to search for
+     * @return {@code List<SystemUser>}, empty if no users found
+     */
     @Transactional
-    public List<SystemUser> getSystemUserByFirstName(String fName){
-        return userSystemRepository.findByFirstName(fName);
+    public List<SystemUser> getSystemUserByFirstName(String firstName){
+        return userSystemRepository.findByFirstName(firstName);
     }
 
+    /**
+     * Method used to get System user list with specified firstName
+     * @param lastName - Specified last name to search for
+     * @return {@code List<SystemUser>}, empty if no users found
+     */
     @Transactional
-    public List<SystemUser> getSystemUserByLastName(String lName){
-        return userSystemRepository.findByLastName(lName);
+    public List<SystemUser> getSystemUserByLastName(String lastName){
+        return userSystemRepository.findByLastName(lastName);
     }
 
+    /**
+     * Method used to get System user with specified userName
+     * @param userName - UserName to search for
+     * @return Specified {@code SystemUser}, null if not found in database
+     */
     @Transactional
     public SystemUser getSystemUserByUserName(String userName){
         Iterable<SystemUser> users = userSystemRepository.findAll();
@@ -313,6 +292,11 @@ public class Where2EatService {
         return null;
     }
 
+    /**
+     * Method used to delete specified user.
+     * @param user - User to delete
+     * @return {@code true} if deleted, {@code false} otherwise.
+     */
     @Transactional
     public boolean deleteUser(SystemUser user){
         if(!userSystemRepository.existsByUserID(user.getUserID())){
