@@ -72,4 +72,15 @@ public String getGroupName() {
       this.top3Restaurants = top3Restaurantss;
    }
    
+   private SystemUser admin;
+   
+   @ManyToOne
+   public SystemUser getAdmin() {
+      return this.admin;
+   }
+   
+   public void setAdmin(SystemUser admin) {
+      this.admin = admin;
+   }
+   
    }
