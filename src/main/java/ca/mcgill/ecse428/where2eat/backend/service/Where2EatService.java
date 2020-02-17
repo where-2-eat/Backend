@@ -213,12 +213,6 @@ public class Where2EatService {
 		return newUser;
 	}
 
-	@Transactional
-	public SystemUser getSystemUser(int id){
-		return userSystemRepository.findUserByUserID(id);
-	}
-    
-
 //    @Transactional
 //    public Login createLogin(String username, String password, Where2Eat w) {
 //        String error = "";
@@ -288,6 +282,7 @@ public class Where2EatService {
         return usergroup;
     }
 
+
     /**
      * Method to get an existing UserGroup with the groupName
      * @param  groupName
@@ -297,7 +292,7 @@ public class Where2EatService {
     public UserGroup getUserGroup(String groupName){
     			
     	UserGroup userGroup= userGroupRepository.findUserGroupByGroupName(groupName);
-    	return userGroup;
+        return userGroup;
     }
 
     /**
@@ -313,7 +308,7 @@ public class Where2EatService {
         userList.add(systemUser);
         Set userSet = new HashSet(userList);
         userGroup.setUser(userSet);
-    	userGroupRepository.save(userGroup);
+        userGroupRepository.save(userGroup);
     }
 
 
@@ -438,15 +433,6 @@ public class Where2EatService {
 
         // ==========================================================================================
 
-	@Transactional
-	public List<SystemUser> getSystemUserByFirstName(String fName){
-		return userSystemRepository.findByFirstName(fName);
-	}
-
-	@Transactional
-	public List<SystemUser> getSystemUserByLastName(String lName){
-		return userSystemRepository.findByLastName(lName);
-	}
 
 	@Transactional
 	public boolean deleteUserById(SystemUser user){
@@ -459,37 +445,123 @@ public class Where2EatService {
 		return true;
 	} 
 
-	//    /**
-	//     * Method used to update user fields
-	//     * @param user - User to which modify fields
-	//     * @param fieldsToUpdate - Fields to update, as a KVP
-	//     * @return true if completed successfully, false otherwise
-	//     */
-	//    @Transactional
-	//    public boolean updateSystemUserFields(SystemUser user, Map<SystemUser.UserFields, String> fieldsToUpdate){
-	//        if(!userSystemRepository.existsById(user.getUserID())){
-	//            return false;
-	//        }
-	//
-	//        // Iterate over fields to update in the user-
-	//        for(Map.Entry<SystemUser.UserFields, String> field : fieldsToUpdate.entrySet()){
-	//            SystemUser.UserFields key = field.getKey();
-	//            String value = field.getValue();
-	//            if(key.equals(SystemUser.UserFields.firstName)){
-	//                user.setFirstName(value);
-	//            } else if (key.equals(SystemUser.UserFields.lastName)){
-	//                user.setLastName(value);
-	//            } else if (key.equals(SystemUser.UserFields.userName)){
-	//                user.getLoginInformation().setUserName(value);
-	//            }  else if (key.equals(SystemUser.UserFields.password)){
-	//                user.getLoginInformation().setUserName(value);
-	//            } else {
-	//                // Cannot Modify any other names
-	//                return false;
-	//            }
-	//        }
-	//        userSystemRepository.save(user);
-	//        return true;
-	//    }
-	// ****************************************************************
+    // ****************************************************************
+    // USER CRUD
+
+    /**
+     * Enumeration to be used when modifying user fields
+     */
+    public static enum UserFields{
+        firstName,
+        lastName,
+        userName,
+        password
+    }
+
+    /**
+     * Method used to get SystemUser by specified ID
+     * @param id - UserID
+     * @return user if found, null otherwise
+     */
+    @Transactional
+    public SystemUser getSystemUser(int id){
+        return userSystemRepository.findUserByUserID(id);
+    }
+
+    /**
+     * Method used to get System user list with specified firstName
+     * @param firstName - Specified first name to search for
+     * @return {@code List<SystemUser>}, empty if no users found
+     */
+    @Transactional
+    public List<SystemUser> getSystemUserByFirstName(String firstName){
+        return userSystemRepository.findByFirstName(firstName);
+    }
+
+    /**
+     * Method used to get System user list with specified firstName
+     * @param lastName - Specified last name to search for
+     * @return {@code List<SystemUser>}, empty if no users found
+     */
+    @Transactional
+    public List<SystemUser> getSystemUserByLastName(String lastName){
+        return userSystemRepository.findByLastName(lastName);
+    }
+
+    /**
+     * Method used to get System user with specified userName
+     * @param userName - UserName to search for
+     * @return Specified {@code SystemUser}, null if not found in database
+     */
+    @Transactional
+    public SystemUser getSystemUserByUserName(String userName){
+        Iterable<SystemUser> users = userSystemRepository.findAll();
+        for(SystemUser user : users){
+            if(user.getLoginInformation().getUserName().equals(userName)){
+                return user;
+            }
+        }
+        return null;
+    }
+
+    @Transactional
+    public List<SystemUser> getAllSystemUsers(){
+        Iterable<SystemUser> usersIterable = userSystemRepository.findAll();
+        List<SystemUser> userList = new ArrayList<SystemUser>();
+        for(SystemUser user: usersIterable){
+            userList.add(user);
+        }
+        return userList;
+    }
+
+    /**
+     * Method used to delete specified user.
+     * @param user - User to delete
+     * @return {@code true} if deleted, {@code false} otherwise.
+     */
+    @Transactional
+    public boolean deleteUser(SystemUser user){
+        if(!userSystemRepository.existsByUserID(user.getUserID())){
+            return false;
+        }
+        else {
+            userSystemRepository.delete(user);
+        }
+        return true;
+    } 
+    
+    /**
+     * Method used to update user fields
+     * @param user - User to which modify fields
+     * @param fieldsToUpdate - Fields to update, as a KVP
+     * @return true if completed successfully, false otherwise
+     */
+    @Transactional
+    public boolean updateSystemUserFields(SystemUser user, Map<UserFields, String> fieldsToUpdate){
+        if(!userSystemRepository.existsById(user.getUserID())){
+            return false;
+        }
+
+        // Iterate over fields to update in the user-
+        for(Map.Entry<UserFields, String> field : fieldsToUpdate.entrySet()){
+            UserFields key = field.getKey();
+            String value = field.getValue();
+            if(key.equals(UserFields.firstName)){
+                user.setFirstName(value);
+            } else if (key.equals(UserFields.lastName)){
+                user.setLastName(value);
+            } else if (key.equals(UserFields.userName)){
+                user.getLoginInformation().setUserName(value);
+            }  else if (key.equals(UserFields.password)){
+                user.getLoginInformation().setPassword(value);
+            } else {
+                // Cannot Modify any other names
+                return false;
+            }
+        }
+        userSystemRepository.save(user);
+        return true;
+    }
+    // ****************************************************************
+
 }

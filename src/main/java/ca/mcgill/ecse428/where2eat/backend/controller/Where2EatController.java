@@ -9,6 +9,7 @@ import ca.mcgill.ecse428.where2eat.backend.service.*;
 import ca.mcgill.ecse428.where2eat.backend.model.*;
 
 import java.util.List;
+import java.util.*;
 
 /**
  * Main controller class. Provides the REST API mappings
@@ -29,10 +30,6 @@ public class Where2EatController {
 //     * @author Tristan Bouchard
 //     * @return
 //     */
-//    @RequestMapping(value = {"/login/", "/login"})
-//    public boolean login(@RequestParam String userName, @RequestParam String password){
-//        return service.login(userName, password);
-//    }
     
   @RequestMapping(value = {"/login/", "/login"})
   public String login(@RequestParam String userName, @RequestParam String password){
@@ -76,6 +73,17 @@ public class Where2EatController {
         service.getLocationFromSystemUser(userId);
     }
 
+    /**
+     * Restful endpoint to allow request of all system users
+     *
+     * @author Tristan Bouchard
+     * @return
+     */
+    @RequestMapping(value = {"/allUsers/", "/allUsers"})
+    public List<SystemUser> getAllSystemUsers(){
+        return service.getAllSystemUsers();
+    }
+
 
     /**
      * Restful endpoint to get location from user group
@@ -84,8 +92,4 @@ public class Where2EatController {
     public void getLocationFromUserGroup(@PathVariable("groupName") String groupName) {
         service.getLocationFromGroup(groupName);
     }
-
-
-
-
 }

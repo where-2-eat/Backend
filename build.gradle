@@ -22,8 +22,12 @@ dependencies {
     testRuntimeOnly "org.junit.jupiter:junit-jupiter-engine:5.5.0"
     testRuntimeOnly "org.junit.vintage:junit-vintage-engine:5.5.0"
 
+<<<<<<< HEAD
 
 	testImplementation 'junit:junit:4.12'
+=======
+	testCompile 'junit:junit:4.12'
+>>>>>>> 76e0032a7a515fbe3ccf896bc8e39a8eeed89f49
 	compile 'junit:junit:4.12'
 	compile 'org.springframework.security:spring-security-core:5.2.1.RELEASE'
 	compile 'org.springframework.security:spring-security-config:5.2.1.RELEASE'
