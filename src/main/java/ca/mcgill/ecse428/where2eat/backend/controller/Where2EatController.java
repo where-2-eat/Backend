@@ -21,18 +21,23 @@ public class Where2EatController {
     Where2EatService service;
 
 
-    /**
-     * Restful endpoint observing login
-     *
-     * @param userName
-     * @param password
-     * @author Tristan Bouchard
-     * @return
-     */
-    @RequestMapping(value = {"/login/", "/login"})
-    public boolean login(@RequestParam String userName, @RequestParam String password){
-        return service.login(userName, password);
-    }
+//    /**
+//     * Restful endpoint observing login
+//     *
+//     * @param userName
+//     * @param password
+//     * @author Tristan Bouchard
+//     * @return
+//     */
+//    @RequestMapping(value = {"/login/", "/login"})
+//    public boolean login(@RequestParam String userName, @RequestParam String password){
+//        return service.login(userName, password);
+//    }
+    
+  @RequestMapping(value = {"/login/", "/login"})
+  public String login(@RequestParam String userName, @RequestParam String password){
+      return service.login(userName, password);
+  }
 
     /**
      * Restful endpoint to register a new user
