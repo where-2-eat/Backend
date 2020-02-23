@@ -1,10 +1,7 @@
 package ca.mcgill.ecse428.where2eat.backend.model;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Set;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
 
 @Entity
 public class UserGroup{
@@ -74,7 +71,7 @@ public String getGroupName() {
    
    private SystemUser admin;
    
-   @ManyToOne
+   @ManyToOne( fetch = FetchType.LAZY)
    public SystemUser getAdmin() {
       return this.admin;
    }

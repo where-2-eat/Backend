@@ -1,24 +1,23 @@
 package ca.mcgill.ecse428.where2eat.backend.service;
 
-import ca.mcgill.ecse428.where2eat.backend.dao.*;
-import ca.mcgill.ecse428.where2eat.backend.service.Where2EatService;
-import ca.mcgill.ecse428.where2eat.backend.model.*;
+import ca.mcgill.ecse428.where2eat.backend.dao.LoginRepository;
+import ca.mcgill.ecse428.where2eat.backend.dao.UserGroupRepository;
+import ca.mcgill.ecse428.where2eat.backend.dao.UserSystemRepository;
+import ca.mcgill.ecse428.where2eat.backend.model.SystemUser;
+import ca.mcgill.ecse428.where2eat.backend.model.UserGroup;
 import org.junit.After;
 import org.junit.Assert;
 import org.junit.Test;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.runner.RunWith;
-import org.mockito.internal.util.reflection.Fields;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-
 import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 
 
 @RunWith(SpringRunner.class)
@@ -47,6 +46,11 @@ public class Where2EatServiceTest {
     private final String LNAME2 = "Malone";
     private final String USERNAME2 = "Beebongs";
     private final String PASSWORD2 = "Bentleys";
+
+    private final String FNAME3 = "Thomas";
+    private final String LNAME3 = "phi";
+    private final String USERNAME3 = "hello";
+    private final String PASSWORD3 = "world";
     
     
     @After
@@ -130,5 +134,18 @@ public class Where2EatServiceTest {
         assertEquals(users.size(), 2);
     }
 
+
+
+    // ==========================================================================================
+    // UserGroup Tests
+    // ==========================================================================================
+    @Test
+    public void createGroupTest(){
+        SystemUser admin = service.createUser(FNAME3, LNAME3, USERNAME3, PASSWORD3);
+
+        UserGroup group  = service.createUserGroup(admin.getUserID(), "tata");
+        assertEquals(group.getAdmin().getFirstName(), "Thomas");
+        assertEquals(service.getAllUserGroups().size(), 1);
+    }
 
 }

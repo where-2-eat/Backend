@@ -1,13 +1,7 @@
 package ca.mcgill.ecse428.where2eat.backend.model;
 
 import javax.persistence.*;
-import javax.persistence.GeneratedValue;
-import javax.persistence.CascadeType;
-import javax.persistence.OneToOne;
-import javax.persistence.Id;
 import java.util.Set;
-import javax.persistence.ManyToMany;
-import javax.persistence.OneToMany;
 
 @Entity
 public class SystemUser{
@@ -71,8 +65,8 @@ public Integer getUserID() {
    }
    
    private Set<UserGroup> userGroup;
-   
-   @OneToMany(mappedBy="admin" )
+
+   @OneToMany(mappedBy="admin" ,cascade = CascadeType.ALL)
    public Set<UserGroup> getUserGroup() {
       return this.userGroup;
    }

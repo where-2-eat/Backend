@@ -1,26 +1,23 @@
 package ca.mcgill.ecse428.where2eat.backend.service;
 
-import ca.mcgill.ecse428.where2eat.backend.dao.*;
+import ca.mcgill.ecse428.where2eat.backend.dao.LoginRepository;
+import ca.mcgill.ecse428.where2eat.backend.dao.UserGroupRepository;
+import ca.mcgill.ecse428.where2eat.backend.dao.UserSystemRepository;
 import ca.mcgill.ecse428.where2eat.backend.exception.CustomException;
-import ca.mcgill.ecse428.where2eat.backend.model.*;
+import ca.mcgill.ecse428.where2eat.backend.model.Login;
+import ca.mcgill.ecse428.where2eat.backend.model.SystemUser;
+import ca.mcgill.ecse428.where2eat.backend.model.UserGroup;
 import ca.mcgill.ecse428.where2eat.backend.security.JwtTokenProvider;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.stereotype.Service;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
+import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
-
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
-import java.util.Map;
 
 @Service
 public class Where2EatService {
@@ -49,21 +46,78 @@ public class Where2EatService {
      * Method for creating a UserGroup from a single user, the admin.
      * Note that the admin has no specific role compared to a regular user
      *
-     * @param admin
+     * @param user
      * @return userGroup
      */
     @Transactional
-    public UserGroup createUserGroup(SystemUser admin, String groupName){
-
+    public UserGroup createUserGroup(Integer userId, String groupName){
+        //TODO (thomas): check for valid inputs
+        UserGroup usergroup = createEmptyGroup(groupName);
+        SystemUser user = userSystemRepository.findUserByUserID(userId);
+         usergroup.setAdmin(user);
+        List<UserGroup> userList = new ArrayList<UserGroup>();
+        userList.add(usergroup);
+        Set set = new HashSet(userList);
+        user.setUserGroup(set);
+        userSystemRepository.save(user);
+        return usergroup;
+    }
+    @Transactional
+    public UserGroup createEmptyGroup(String groupName){
         UserGroup usergroup = new UserGroup();
         usergroup.setGroupName(groupName);
-        List<SystemUser> userList = new ArrayList<SystemUser>();
-        userList.add(admin);
-        Set set = new HashSet(userList);
-        usergroup.setUser(set);
         userGroupRepository.save(usergroup);
         return usergroup;
     }
+    /**
+     * Method for adding an existing user to an existing group
+     *
+     * @param user, groupName
+     * @return userGroup
+     */
+    @Transactional
+    public UserGroup addUserToGroup(SystemUser user, String groupName) {
+
+       //TODO (thomas): check for valid inputs
+        UserGroup group = userGroupRepository.findUserGroupByGroupName(groupName);
+        List<SystemUser> userList = new ArrayList<SystemUser>();
+        userList.addAll(group.getUser());
+        userList.add(user);
+        Set set = new HashSet(userList);
+        group.setUser(set);
+     //   userGroupRepository.save(group);
+        return group;
+    }
+
+    /**
+     * Method for retrieving all existing user groups
+     *
+     * @param
+     * @return userGroup
+     */
+    public List<UserGroup> getAllUserGroups() {
+        return StreamSupport.stream(userGroupRepository.findAll().spliterator(), false)
+                .collect(Collectors.toList());
+    }
+
+
+    /**
+     * Method to get an existing UserGroup with the groupName
+     * @param  groupName
+     * @return UserGroup userGroup
+     */
+    @Transactional
+    public UserGroup getUserGroup(String groupName){
+
+        UserGroup userGroup= userGroupRepository.findUserGroupByGroupName(groupName);
+        return userGroup;
+    }
+
+
+    // ==========================================================================================
+    // LOGIN operations
+    // ==========================================================================================
+
 
     public List<String> getBlackList() {
         return blackList;
@@ -74,7 +128,6 @@ public class Where2EatService {
         blackList.add(token);
         return true;
     }
-
 
     /**
      * Method for creating Login
@@ -136,17 +189,6 @@ public class Where2EatService {
 		}
 	}
 
-    /**
-     * Method to get an existing UserGroup with the groupName
-     * @param  groupName
-     * @return UserGroup userGroup
-     */
-    @Transactional
-    public UserGroup getUserGroup(String groupName){
-    			
-    	UserGroup userGroup= userGroupRepository.findUserGroupByGroupName(groupName);
-        return userGroup;
-    }
 
     /**
      *
