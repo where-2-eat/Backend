@@ -1,5 +1,9 @@
 package ca.mcgill.ecse428.where2eat.backend.model;
 
+import org.hibernate.annotations.NotFound;
+import org.hibernate.annotations.NotFoundAction;
+import org.springframework.data.rest.core.annotation.RestResource;
+
 import javax.persistence.*;
 import java.util.Set;
 
@@ -8,6 +12,7 @@ public class SystemUser{
    private Login loginInformation;
    
    @OneToOne(cascade={CascadeType.ALL})
+   @RestResource(exported=false)
    public Login getLoginInformation() {
       return this.loginInformation;
    }
@@ -56,6 +61,7 @@ public Integer getUserID() {
    private UserPreference userPreferences;
    
    @OneToOne(cascade={CascadeType.ALL})
+   @NotFound(action= NotFoundAction.IGNORE)
    public UserPreference getUserPreferences() {
       return this.userPreferences;
    }
@@ -67,6 +73,7 @@ public Integer getUserID() {
    private Set<UserGroup> userGroup;
 
    @OneToMany(mappedBy="admin" ,cascade = CascadeType.ALL)
+   @NotFound(action= NotFoundAction.IGNORE)
    public Set<UserGroup> getUserGroup() {
       return this.userGroup;
    }
@@ -78,6 +85,7 @@ public Integer getUserID() {
    private Location userLocation;
    
    @OneToOne(mappedBy="systemUser" )
+   @NotFound(action= NotFoundAction.IGNORE)
    public Location getUserLocation() {
       return this.userLocation;
    }

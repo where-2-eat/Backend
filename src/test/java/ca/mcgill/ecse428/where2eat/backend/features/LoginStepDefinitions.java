@@ -5,7 +5,6 @@ import ca.mcgill.ecse428.where2eat.backend.dao.UserGroupRepository;
 import ca.mcgill.ecse428.where2eat.backend.dao.UserSystemRepository;
 import ca.mcgill.ecse428.where2eat.backend.service.Where2EatService;
 import cucumber.api.DataTable;
-import cucumber.api.PendingException;
 import cucumber.api.java.Before;
 import cucumber.api.java.en.Given;
 import cucumber.api.java.en.Then;
