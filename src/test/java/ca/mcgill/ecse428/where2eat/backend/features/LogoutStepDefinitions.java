@@ -1,3 +1,5 @@
+package ca.mcgill.ecse428.where2eat.backend.features;
+
 import ca.mcgill.ecse428.where2eat.backend.dao.LoginRepository;
 import ca.mcgill.ecse428.where2eat.backend.dao.UserGroupRepository;
 import ca.mcgill.ecse428.where2eat.backend.dao.UserSystemRepository;
@@ -32,6 +34,7 @@ public class LogoutStepDefinitions {
             String username = dt.getGherkinRows().get(i).getCells().get(1);
             String password = dt.getGherkinRows().get(i).getCells().get(2);
             System.out.println(firstName);
+            where2EatService.createUser(firstName, lastName, username, password);
             token = where2EatService.login(username, password);
         }
     }
