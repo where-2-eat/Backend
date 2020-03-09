@@ -1,13 +1,8 @@
 package ca.mcgill.ecse428.where2eat.backend.service;
 
-import ca.mcgill.ecse428.where2eat.backend.dao.LoginRepository;
-import ca.mcgill.ecse428.where2eat.backend.dao.RestaurantRepository;
-import ca.mcgill.ecse428.where2eat.backend.dao.UserGroupRepository;
-import ca.mcgill.ecse428.where2eat.backend.dao.UserSystemRepository;
+import ca.mcgill.ecse428.where2eat.backend.dao.*;
 import ca.mcgill.ecse428.where2eat.backend.exception.CustomException;
-import ca.mcgill.ecse428.where2eat.backend.model.Login;
-import ca.mcgill.ecse428.where2eat.backend.model.Restaurant;
-import ca.mcgill.ecse428.where2eat.backend.model.SystemUser;
+import ca.mcgill.ecse428.where2eat.backend.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.core.AuthenticationException;
@@ -38,6 +33,9 @@ public class Where2EatService {
 
     @Autowired
     private RestaurantRepository restaurantRepository;
+
+    @Autowired
+    private UserPreferenceRepository userPreferenceRepository;
 
     public List<String> blackList = new ArrayList<>();
 
@@ -126,7 +124,15 @@ public class Where2EatService {
         newUser.setFirstName(firstName);
         newUser.setLastName(lastName);
         newUser.setLoginInformation(login);
+
+        UserPreference userPreference = new UserPreference();
+
+        userPreferenceRepository.save(userPreference);
+        newUser.setUserPreferences(userPreference);
+
         userSystemRepository.save(newUser);
+
+
         return newUser;
     }
 
@@ -167,6 +173,27 @@ public class Where2EatService {
 
     public Restaurant getRestaurantChoiceForGroup(String groupName){
         return userGroupRepository.findUserGroupByGroupName(groupName).getFinalChoice();
+    }
+
+    public void setFirstPreferenceRestaurantType(SystemUser user, String preference) throws IllegalArgumentException{
+
+        user.getUserPreferences().setRestaurantType(RestaurantType.valueOf(preference.toLowerCase()));
+        userPreferenceRepository.save(user.getUserPreferences());
+        userSystemRepository.save(user);
+
+    }
+
+    public void setSecondPreferenceRestaurantType(SystemUser user, String preference) throws IllegalArgumentException{
+        user.getUserPreferences().setRestaurantType2(RestaurantType.valueOf(preference.toLowerCase()));
+        userPreferenceRepository.save(user.getUserPreferences());
+        userSystemRepository.save(user);
+
+    }
+
+    public void setThirdPreferenceRestaurantType(SystemUser user, String preference) throws IllegalArgumentException{
+        user.getUserPreferences().setRestaurantType3(RestaurantType.valueOf(preference.toLowerCase()));
+        userPreferenceRepository.save(user.getUserPreferences());
+        userSystemRepository.save(user);
     }
 
 }
