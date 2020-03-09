@@ -5,14 +5,6 @@ import javax.persistence.Id;
 
 @Entity
 public class UserPreference{
-   private FoodRestriction foodRestriction;
-
-public void setFoodRestriction(FoodRestriction value) {
-    this.foodRestriction = value;
-}
-public FoodRestriction getFoodRestriction() {
-    return this.foodRestriction;
-}
 private RestaurantType restaurantType;
 
 public void setRestaurantType(RestaurantType value) {
