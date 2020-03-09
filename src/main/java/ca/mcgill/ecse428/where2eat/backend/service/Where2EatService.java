@@ -166,15 +166,18 @@ public class Where2EatService {
         return userLogin;
     }
 
+    @Transactional
     public List<Login> getAllLogins() {
         return StreamSupport.stream(loginRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
     }
 
+    @Transactional
     public Restaurant getRestaurantChoiceForGroup(String groupName){
         return userGroupRepository.findUserGroupByGroupName(groupName).getFinalChoice();
     }
 
+    @Transactional
     public void setFirstPreferenceRestaurantType(SystemUser user, String preference) throws IllegalArgumentException{
 
         user.getUserPreferences().setRestaurantType(RestaurantType.valueOf(preference.toLowerCase()));
@@ -183,6 +186,7 @@ public class Where2EatService {
 
     }
 
+    @Transactional
     public void setSecondPreferenceRestaurantType(SystemUser user, String preference) throws IllegalArgumentException{
         user.getUserPreferences().setRestaurantType2(RestaurantType.valueOf(preference.toLowerCase()));
         userPreferenceRepository.save(user.getUserPreferences());
@@ -190,10 +194,24 @@ public class Where2EatService {
 
     }
 
+    @Transactional
     public void setThirdPreferenceRestaurantType(SystemUser user, String preference) throws IllegalArgumentException{
         user.getUserPreferences().setRestaurantType3(RestaurantType.valueOf(preference.toLowerCase()));
         userPreferenceRepository.save(user.getUserPreferences());
         userSystemRepository.save(user);
+    }
+
+    @Transactional
+    public UserGroup createGroup(SystemUser user, String groupName) throws IllegalArgumentException {
+        if(userGroupRepository.findUserGroupByGroupName(groupName) != null){
+            throw new IllegalArgumentException("Group with name " + groupName + " already exists.");
+        }
+        UserGroup newGroup = new UserGroup();
+        newGroup.setGroupName(groupName);
+        newGroup.setAdmin(user);
+        userGroupRepository.save(newGroup);
+
+        return newGroup;
     }
 
 }
