@@ -1,10 +1,13 @@
 package ca.mcgill.ecse428.where2eat.backend.model;
 
+import io.swagger.annotations.ApiModelProperty;
 import org.hibernate.annotations.NotFound;
 import org.hibernate.annotations.NotFoundAction;
 import org.springframework.data.rest.core.annotation.RestResource;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 import java.util.Set;
 
 @Entity
@@ -12,7 +15,7 @@ public class SystemUser{
    private Login loginInformation;
    
    @OneToOne(cascade={CascadeType.ALL})
-   @RestResource(exported=false)
+   @RestResource(path = "login", rel="login")
    public Login getLoginInformation() {
       return this.loginInformation;
    }
@@ -26,6 +29,9 @@ public class SystemUser{
 public void setFirstName(String value) {
     this.firstName = value;
 }
+
+@ApiModelProperty(value="First Name", required = true, example="Imad")
+@NotEmpty(message = "Please Provide a First Name")
 public String getFirstName() {
     return this.firstName;
 }
@@ -34,6 +40,9 @@ private String lastName;
 public void setLastName(String value) {
     this.lastName = value;
 }
+
+@ApiModelProperty(value="Last Name", required = true, example = "Dodin")
+@NotEmpty(message = "Please Provide a Last Name")
 public String getLastName() {
     return this.lastName;
 }

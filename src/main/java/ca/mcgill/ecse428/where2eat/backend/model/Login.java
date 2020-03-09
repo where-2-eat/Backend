@@ -1,7 +1,9 @@
 package ca.mcgill.ecse428.where2eat.backend.model;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 
 @Entity
 public class Login{
@@ -22,4 +24,14 @@ public void setPassword(String value) {
 public String getPassword() {
     return this.password;
 }
+
+private SystemUser user;
+
+    @OneToOne(cascade={CascadeType.ALL})
+    public SystemUser getUser() {
+        return this.user;
+    }
+    public void setUser(SystemUser user){
+        this.user = user;
+    }
 }
