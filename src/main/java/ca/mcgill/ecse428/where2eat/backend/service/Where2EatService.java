@@ -9,10 +9,7 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -233,5 +230,76 @@ public class Where2EatService {
         foundGroup.setUser(users);
         userGroupRepository.save(foundGroup);
         return foundGroup;
+    }
+
+    @Transactional
+    public List<RestaurantType> findMajority(UserGroup userGroup) {
+        Map<RestaurantType, Integer> counts = new HashMap<RestaurantType, Integer>();
+
+        if(userGroup.getUser() == null || userGroup.getUser().size()==0){
+            throw new IllegalArgumentException("afsfsaf");
+        }
+
+        for(RestaurantType r : RestaurantType.values()){
+            counts.put(r, 0);
+        }
+
+        RestaurantType r1 = userGroup.getAdmin().getUserPreferences().getRestaurantType();
+        RestaurantType r2 = userGroup.getAdmin().getUserPreferences().getRestaurantType2();
+        RestaurantType r3 = userGroup.getAdmin().getUserPreferences().getRestaurantType3();
+
+        counts.put(r1, counts.get(r1) + 1);
+        counts.put(r2, counts.get(r2) + 1);
+        counts.put(r3, counts.get(r3) + 1);
+
+        for(SystemUser u : userGroup.getUser()){
+            RestaurantType ur1 = u.getUserPreferences().getRestaurantType();
+            RestaurantType ur2 = u.getUserPreferences().getRestaurantType2();
+            RestaurantType ur3 = u.getUserPreferences().getRestaurantType3();
+
+            counts.put(ur1, counts.get(ur1) + 1);
+            counts.put(ur2, counts.get(ur2) + 1);
+            counts.put(ur3, counts.get(ur3) + 1);
+        }
+
+        ArrayList<RestaurantType> maxList = new ArrayList<>();
+
+        int max = 0;
+        RestaurantType maxType = null;
+        for(Map.Entry<RestaurantType, Integer> e : counts.entrySet()){
+            if(e.getValue() >= max){
+                max = e.getValue();
+                maxType = e.getKey();
+            }
+        }
+        counts.put(maxType, 0);
+
+        maxList.add(maxType);
+
+        max = 0;
+        maxType = null;
+        for(Map.Entry<RestaurantType, Integer> e : counts.entrySet()){
+            if(e.getValue() >= max){
+                max = e.getValue();
+                maxType = e.getKey();
+            }
+        }
+        counts.put(maxType, 0);
+
+        maxList.add(maxType);
+
+        max = 0;
+        maxType = null;
+        for(Map.Entry<RestaurantType, Integer> e : counts.entrySet()){
+            if(e.getValue() >= max){
+                max = e.getValue();
+                maxType = e.getKey();
+            }
+        }
+        counts.put(maxType, 0);
+
+        maxList.add(maxType);
+
+        return maxList;
     }
 }
