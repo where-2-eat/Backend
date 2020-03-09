@@ -15,6 +15,7 @@ public class SystemUser{
    private Login loginInformation;
    
    @OneToOne(cascade={CascadeType.ALL})
+   @RestResource(path = "login", rel="login")
    public Login getLoginInformation() {
       return this.loginInformation;
    }
