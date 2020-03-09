@@ -10,7 +10,9 @@ import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
@@ -214,4 +216,22 @@ public class Where2EatService {
         return newGroup;
     }
 
+    @Transactional
+    public UserGroup joinGroup(SystemUser user, String groupName) {
+        if (userGroupRepository.findUserGroupByGroupName(groupName) == null) {
+            throw new IllegalArgumentException("Group with name " + groupName + " does not exists.");
+        }
+
+        UserGroup foundGroup = userGroupRepository.findUserGroupByGroupName(groupName);
+
+        if(foundGroup.getAdmin().getLoginInformation().getUserName().equals(user.getLoginInformation().getUserName())){
+            throw new IllegalArgumentException("User is already admin for this group.");
+        }
+
+        Set<SystemUser> users = foundGroup.getUser();
+        users.add(user);
+        foundGroup.setUser(users);
+        userGroupRepository.save(foundGroup);
+        return foundGroup;
+    }
 }
