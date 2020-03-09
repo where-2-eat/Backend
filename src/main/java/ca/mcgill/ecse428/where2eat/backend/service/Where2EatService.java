@@ -1,10 +1,12 @@
 package ca.mcgill.ecse428.where2eat.backend.service;
 
 import ca.mcgill.ecse428.where2eat.backend.dao.LoginRepository;
+import ca.mcgill.ecse428.where2eat.backend.dao.RestaurantRepository;
 import ca.mcgill.ecse428.where2eat.backend.dao.UserGroupRepository;
 import ca.mcgill.ecse428.where2eat.backend.dao.UserSystemRepository;
 import ca.mcgill.ecse428.where2eat.backend.exception.CustomException;
 import ca.mcgill.ecse428.where2eat.backend.model.Login;
+import ca.mcgill.ecse428.where2eat.backend.model.Restaurant;
 import ca.mcgill.ecse428.where2eat.backend.model.SystemUser;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -33,6 +35,9 @@ public class Where2EatService {
 
     @Autowired
     private UserSystemRepository userSystemRepository;
+
+    @Autowired
+    private RestaurantRepository restaurantRepository;
 
     public List<String> blackList = new ArrayList<>();
 
@@ -158,6 +163,10 @@ public class Where2EatService {
     public List<Login> getAllLogins() {
         return StreamSupport.stream(loginRepository.findAll().spliterator(), false)
                 .collect(Collectors.toList());
+    }
+
+    public Restaurant getRestaurantChoiceForGroup(String groupName){
+        return userGroupRepository.findUserGroupByGroupName(groupName).getFinalChoice();
     }
 
 }
