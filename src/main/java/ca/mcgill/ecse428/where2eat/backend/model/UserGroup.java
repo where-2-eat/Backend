@@ -16,7 +16,7 @@ public String getGroupName() {
 }
    private Set<SystemUser> user;
    
-   @ManyToMany
+   @ManyToMany(cascade = CascadeType.ALL,fetch=FetchType.EAGER)
    public Set<SystemUser> getUser() {
       return this.user;
    }
@@ -71,7 +71,7 @@ public String getGroupName() {
    
    private SystemUser admin;
    
-   @ManyToOne( fetch = FetchType.LAZY)
+   @ManyToOne( fetch = FetchType.EAGER)
    public SystemUser getAdmin() {
       return this.admin;
    }
